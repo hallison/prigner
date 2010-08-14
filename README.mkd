@@ -1,0 +1,83 @@
+Rubify
+======
+
+Rubify is a tool which creates a conventional structure for several Ruby
+projects, that is, Gem, CLI command, MVC application and simple scripts. It is
+a DRY tool, because everything is based in templates, that is, a project
+template engine.
+
+
+Features
+========
+
+* Load and create all directories and files from templates.
+* Default Ruby project templates.
+  * Ruby Gem.
+  * A simple project using setup.
+  * Script file with or without directory structure.
+* Add common tasks and libraries.
+  * Tests.
+  * Deploy.
+  * Code for versioning.
+
+Installation
+============
+
+First, install Rubify stable through Gem:
+
+    gem install rubify
+
+Usage
+=====
+
+Rubify create the most common Ruby projects through templates shared. To
+generate new Gem project, run command using the following syntax:
+
+    rubify gem foo
+
+    foo
+    |-- CHANGELOG
+    |-- COPYRIGHT
+    |-- README.mkd
+    |-- Rakefile
+    |-- bin
+    |   `-- foo
+    |-- lib
+    |   |-- foo
+    |   `-- foo.rb
+    |-- foo.gemspec
+    `-- test
+        |-- fixtures
+        |-- foo_test.rb
+        `-- helper.rb
+
+This command will generate 'foo' Gem project structure. Or, you maybe create a
+Ruby script or a UNIX-like program.
+
+    rubify script bar
+
+    bar
+    |-- bar
+    `-- barrc
+
+    rubify program ducklet
+
+    ducklet
+    |-- bin
+    |   `-- ducklet
+    `-- etc
+        `-- duckletrc
+
+Templates
+=========
+
+Under development. Please wait.
+
+Copyright
+=========
+
+Written by [Hallison Batista](http://hallisonbatista.com/about).
+
+Rubify is Copyright (C) 2010, [Codigorama](http://codigorama.com/produtos).
+See COPYRIGHT file for more information about license.
+
