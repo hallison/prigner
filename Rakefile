@@ -68,31 +68,30 @@ namespace :doc do
 
   desc "Creates/updates CHANGELOG file."
   task :changelog do |spec|
-    historic = Struct.new(:tag,:date).new("v0.0.0", {})
+    historic = {}
     text     = ""
 
     log.scan(/(.*?);(.*?);(.*?);(.*?);/m) do |tag, date, subject, content|
-      tag.gsub!(/[\n\( ].*?:[\) ]|,.*,.*[\)\n ]|[\)\n ]/m, "")
-      historic.tag        = (tag =~ /(v.*?)[,\)]/m)? "v#{tag}" : "v0.0.0"
-      historic.date[date] = {
-        :release => "#{tag} - #{date}",
+      
+      historic[date] = {
+        :release => "#{date} #{tag.match(/(v\d\..*)/im) ? tag : nil}",
         :changes => []
-      } unless historic.date.has_key? date
+      } unless historic.has_key? date
 
-      historic.date[date][:changes] << "\n* #{subject}\n"
-      historic.date[date][:changes] << content.gsub(/(.*?)\n/m){"\n  #{$1}\n"} unless content.empty?
+      historic[date][:changes] << "\n* #{subject}\n"
+      historic[date][:changes] << content.gsub(/(.*?)\n/m){"\n  #{$1}\n"} unless content.empty?
     end
-    historic.date.each do |date, version|
+
+    historic.each do |date, entry|
       text  = <<-end_text.gsub(/^[ ]{8}/,'')
-        #{version[:release]}
-        #{"-" * version[:release].size}
-        #{version[:changes]}
-        #{File.open("CHANGELOG.tmp").read}
+        #{entry[:release]}
+        #{"-" * entry[:release].size}
+        #{entry[:changes]}
+        #{File.open("CHANGELOG").read}
       end_text
     end
-    File.open("CHANGELOG.tmp", "w+") do |changelog|
-        changelog << text
-    end
+
+    File.open("CHANGELOG", "w+") { |changelog| changelog << text }
     puts "Successfully updated CHANGELOG file"
   end
 

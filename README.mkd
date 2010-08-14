@@ -41,10 +41,10 @@ generate new Gem project, run command using the following syntax:
     |-- Rakefile
     |-- bin
     |   `-- foo
+    |-- foo.gemspec
     |-- lib
     |   |-- foo
     |   `-- foo.rb
-    |-- foo.gemspec
     `-- test
         |-- fixtures
         |-- foo_test.rb

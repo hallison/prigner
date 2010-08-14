@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+# program: <%=name%>
+# version: <%=version%>
+# author : <%=author%>
+<% functions.collect do |function| %>
+def <%=function%>
+  # type code for <%=function%>
+end
+<% end %>
