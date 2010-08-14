@@ -3,9 +3,8 @@ Rubify
 
 Rubify is a tool which creates a conventional structure for several Ruby
 projects, that is, Gem, CLI command, MVC application and simple scripts. It is
-a DRY tool, because everything is based in templates, that is, a project
+a DRY tool, because everything is based in templates. In short, a project
 template engine.
-
 
 Features
 ========
