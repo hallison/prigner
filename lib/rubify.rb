@@ -24,6 +24,7 @@ module Rubify
 
   # Modules
   autoload :Project,  "rubify/project"
+  autoload :Model,    "rubify/model"
   autoload :Template, "rubify/template"
 
   # Version
