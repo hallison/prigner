@@ -7,24 +7,20 @@
 
 class Rubify::Template < ::Pathname
 
-  attr_reader :result_file
+  attr_reader :models
 
-  attr_reader :bind
+  attr_reader :result_path
 
-  def initialize(path, binds = {})
+  attr_reader :options
+
+  def initialize(path)
     super(path)
-    @result_file = self.to_s.gsub(self.extname, '').to_path
-    @bind = binds.to_struct
-    def @bind.binding
-      super 
-    end
-  end
-
-  def convert!
-    @result_file.open "w+" do |file|
-      require "erb"
-      file << ::ERB.new(self.read).result(bind.binding)
-    end
+    config = YAML.load_file("#{File.dirname(path)}/#{File.basename(path)}.yml").symbolize_keys
+    @requirements = config[:requirements]
+    @options      = config[:options].inject({}) do |options, (name, desc)|
+      options[name] = { :enabled => false, :description => desc }
+      options
+    end.to_struct
   end
 
 end

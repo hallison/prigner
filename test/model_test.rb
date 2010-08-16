@@ -10,7 +10,7 @@ class ModelTest < Test::Unit::TestCase
 
   def setup
     @binds    = {
-      :name    => "foo",
+      :name    => "project",
       :version => "0.1.0",
       :author  => "John Doe",
       :functions => [
@@ -20,11 +20,11 @@ class ModelTest < Test::Unit::TestCase
         :delete
       ]
     }
-    @model = Rubify::Model.new("test/fixtures/templates/foo/foo.rb.erb", @binds)
+    @model = Rubify::Model.new("test/fixtures/templates/project/lib/project.rb.erb", @binds)
   end
 
   should "check basic attributes of model" do
-    assert_equal "test/fixtures/templates/foo/foo.rb".to_path, @model.result_file
+    assert_equal "test/fixtures/templates/project/lib/project.rb".to_path, @model.result_file
   end
 
   should "check bind values" do
@@ -40,7 +40,7 @@ class ModelTest < Test::Unit::TestCase
 
     assert_equal <<-end_result.gsub(/^[ ]{6}/, ''), @model.result_file.read
       #!/usr/bin/ruby
-      # program: foo
+      # name   : project
       # version: 0.1.0
       # author : John Doe
 

@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# program: foo
+# name   : project
 # version: 0.1.0
 # author : John Doe
 
