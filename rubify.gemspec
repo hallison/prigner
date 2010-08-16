@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   #version
   spec.version = "0.1.0"
-  spec.date = "2009-12-29"
+  spec.date = "2009-07-16"
   #
 
   #dependencies
@@ -21,7 +21,23 @@ Gem::Specification.new do |spec|
 
   #manifest
   spec.files = [
+    "CHANGELOG",
+    "COPYING",
+    "README.mkd",
     "Rakefile",
+    "lib/rubify.rb",
+    "lib/rubify/extensions.rb",
+    "lib/rubify/project.rb",
+    "lib/rubify/template.rb",
+    "rubify.gemspec",
+    "test/fixtures/project/foo/bin/foo",
+    "test/fixtures/project/foo/config/foo.yml",
+    "test/fixtures/project/foo/test/foo_test.rb",
+    "test/fixtures/templates/foo.rb",
+    "test/fixtures/templates/foo.rb.erb",
+    "test/helpers.rb",
+    "test/project_test.rb",
+    "test/template_test.rb"
   ]
   #
 

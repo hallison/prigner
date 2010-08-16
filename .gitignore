@@ -1,3 +1,4 @@
+*.gem
 *.sw[p-z]
 *.tmp
 test.*

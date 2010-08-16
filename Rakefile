@@ -8,11 +8,10 @@ require 'lib/rubify'
 
 def rdoc(*args)
   @rdoc ||= if Gem.available? "hanna"
-              ["hanna", "--fmt", "html", "--accessor", "option_accessor=RW"]
+              ["hanna", "--fmt", "html", "--accessor", "option_accessor=RW", *args]
             else
-              ["rdoc"]
+              ["rdoc", *args]
             end
-  @rdoc += args
   sh @rdoc.join(" ")
 end
 

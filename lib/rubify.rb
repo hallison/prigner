@@ -4,7 +4,7 @@
 #@ :milestone: Pre-Alpha
 #@ :timestamp: 2009-07-16 14:05:16 -04:00
 
-# Copyright (c) 2009, Hallison Batista
+# Copyright (c) 2009, 2010, Hallison Batista
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
@@ -22,9 +22,9 @@ module Rubify
   # Root directory for project.
   ROOT = Pathname.new(__FILE__).dirname.join('..').expand_path.freeze
 
+  # Modules
   autoload :Project,  "rubify/project"
   autoload :Template, "rubify/template"
-  autoload :CLI,      "rubify/cli"
 
   # Version
   def self.version
