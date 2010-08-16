@@ -23,6 +23,10 @@ class ModelTest < Test::Unit::TestCase
     @model = Rubify::Model.new("test/fixtures/templates/project/lib/project.rb.erb", @binds)
   end
 
+  def teardown
+    File.delete(@model.result_file) if File.exist?(@model.result_file)
+  end
+
   should "check basic attributes of model" do
     assert_equal "test/fixtures/templates/project/lib/project.rb".to_path, @model.result_file
   end
