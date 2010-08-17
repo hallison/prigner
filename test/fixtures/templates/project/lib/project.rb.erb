@@ -2,8 +2,11 @@
 # name   : <%=name%>
 # version: <%=version%>
 # author : <%=author%>
+
+module <%=name.capitalize%>
 <% functions.collect do |function| %>
-def <%=function%>
-  # type code for <%=function%>
-end
+  def <%=function%>
+    # type code for <%=function%>
+  end
 <% end %>
+end
