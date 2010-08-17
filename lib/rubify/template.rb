@@ -9,19 +9,44 @@ class Rubify::Template < ::Pathname
 
   attr_reader :models
 
-  attr_reader :result_path
+  attr_reader :directories
 
   attr_reader :options
 
+  attr_reader :name
+
+  attr_reader :path
+
   def initialize(path)
     super(path)
-    config = YAML.load_file("#{File.dirname(path)}/#{File.basename(path)}.yml").symbolize_keys
-    @requirements = config[:requirements]
-    @options      = config[:options].inject({}) do |options, (name, desc)|
+    @name = File.basename(path)
+    initialize_options_from(path)
+    initialize_models_and_directories_from(path)
+  end
+
+  private
+
+  def config_file
+    "#{File.dirname(@path)}/#{File.basename(@path)}.yml"
+  end
+
+  def load_config
+    YAML.load_file(config_file).symbolize_keys
+  end
+
+  def initialize_options_from(path)
+    @options = load_config[:options].inject({}) do |options, (name, desc)|
       options[name] = { :enabled => false, :description => desc }
       options
     end.to_struct
   end
 
+  def initialize_models_and_directories_from(path)
+    @models, @directories = [], []
+    Dir["#{path}/**/**"].collect do |path|
+      @models      << Rubify::Model.new(path) if File.file? path
+      @directories << path.to_path if File.directory? path
+    end
+  end
 end
 
