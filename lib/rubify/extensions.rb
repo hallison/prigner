@@ -30,7 +30,7 @@ class Hash
       else
         self[key]
       end
-    end)
+    end) unless self.keys.empty?
   end
 
 end
