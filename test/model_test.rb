@@ -68,12 +68,16 @@ class ModelTest < Test::Unit::TestCase
   should "draw file using content parsed" do
     @model.draw @file
     assert File.exist?(@file)
+    assert_equal @model.content, File.read(@file)
   end
 
   should "creates the path of file before draw" do
     file = "#{BASE_PATH}/test/fixtures/models/should-exist-new-project.rb"
     @model.draw file
+
     assert File.exist?(file)
+    assert_equal @model.content, File.read(file)
+
     File.delete(file) 
   end
 
