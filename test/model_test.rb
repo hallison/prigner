@@ -20,15 +20,12 @@ class ModelTest < Test::Unit::TestCase
         :delete
       ]
     }
+    @file  = "#{BASE_PATH}/test/fixtures/models/newproject.rb"
     @model = Rubify::Model.new("test/fixtures/templates/project/lib/project.rb.erb", @binds)
   end
 
   def teardown
-    File.delete(@model.result_file) if File.exist?(@model.result_file)
-  end
-
-  should "check basic attributes of model" do
-    assert_equal "test/fixtures/templates/project/lib/project.rb".to_path, @model.result_file
+    File.delete(@file) if File.exist?(@file)
   end
 
   should "check bind values" do
@@ -37,34 +34,47 @@ class ModelTest < Test::Unit::TestCase
     end
   end
 
-  should "create file" do
-    @model.convert!
+  should "build contents" do
+    @model.build!
 
-    assert File.exist?(@model.result_file)
-
-    assert_equal <<-end_result.gsub(/^[ ]{6}/, ''), @model.result_file.read
+    assert_equal <<-end_result.gsub(/^[ ]{6}/, ''), @model.content
       #!/usr/bin/ruby
       # name   : project
       # version: 0.1.0
       # author : John Doe
 
-      def create
-        # type code for create
-      end
+      module Project
 
-      def recover
-        # type code for recover
-      end
+        def create
+          # type code for create
+        end
 
-      def update
-        # type code for update
-      end
+        def recover
+          # type code for recover
+        end
 
-      def delete
-        # type code for delete
-      end
+        def update
+          # type code for update
+        end
 
+        def delete
+          # type code for delete
+        end
+
+      end
     end_result
+  end
+
+  should "draw file using content parsed" do
+    @model.draw @file
+    assert File.exist?(@file)
+  end
+
+  should "creates the path of file before draw" do
+    file = "#{BASE_PATH}/test/fixtures/models/should-exist-new-project.rb"
+    @model.draw file
+    assert File.exist?(file)
+    File.delete(file) 
   end
 
 end

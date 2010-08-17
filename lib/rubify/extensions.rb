@@ -43,3 +43,11 @@ class String
   end
 
 end
+
+class Struct
+
+  def binding
+    super
+  end
+
+end
