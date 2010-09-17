@@ -1,3 +1,0 @@
-options:
-  gem: Include RubyGems contents.
-  setup: Include setup.rb file for install.

@@ -2,6 +2,7 @@
 *.sw[p-z]
 *.tmp
 test.*
+todo.*
 doc/*
 pkg/*
 tmp/*

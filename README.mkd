@@ -1,10 +1,10 @@
-Rubify
-======
+Prigner
+=======
 
-Rubify is a tool which creates a conventional structure for several Ruby
-projects, that is, Gem, CLI command, MVC application and simple scripts. It is
-a DRY tool, because everything is based in templates. In short, a project
-template engine.
+Prigner is a Project Design Kit, that is, a tool which creates a conventional
+structure for several projects as RubyGems, Websites, MVC application and
+simple scripts. It is a DRY tool, because everything is based in templates. In
+short, a project template engine.
 
 Features
 ========
@@ -22,17 +22,17 @@ Features
 Installation
 ============
 
-First, install Rubify stable through Gem:
+First, install Prigner stable through Gem:
 
-    gem install rubify
+    gem install prigner
 
 Usage
 =====
 
-Rubify create the most common Ruby projects through templates shared. To
+Prigner create the most common Ruby projects through templates shared. To
 generate new Gem project, run command using the following syntax:
 
-    rubify gem foo
+    Prigner gem foo
 
     foo
     |-- CHANGELOG
@@ -53,13 +53,13 @@ generate new Gem project, run command using the following syntax:
 This command will generate 'foo' Gem project structure. Or, you maybe create a
 Ruby script or a UNIX-like program.
 
-    rubify script bar
+    prigner bash/script bar
 
     bar
     |-- bar
     `-- barrc
 
-    rubify program ducklet
+    prigner bash/program ducklet
 
     ducklet
     |-- bin
@@ -77,6 +77,6 @@ Copyright
 
 Written by [Hallison Batista](http://hallisonbatista.com/about).
 
-Rubify is Copyright (C) 2010, [Codigorama](http://codigorama.com/produtos).
+Prigner is Copyright (C) 2010, [Codigorama](http://codigorama.com/produtos).
 See COPYRIGHT file for more information about license.
 

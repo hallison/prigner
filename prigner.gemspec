@@ -2,12 +2,12 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
 
   #about
-  spec.name = "rubify"
-  spec.summary = "Ruby template engine."
-  spec.description = "Rubify is a template engine for Ruby projects."
+  spec.name = "Prigner"
+  spec.summary = "Project designer."
+  spec.description = "Prigner is a Project Design Kit."
   spec.authors = ["Hallison Batista"]
   spec.email = "hallison.batista@gmail.com"
-  spec.homepage = "http://codigorama.com/produtos/rubify"
+  spec.homepage = "http://codigorama.com/produtos/prigner"
   #
 
   #version
@@ -25,11 +25,11 @@ Gem::Specification.new do |spec|
     "COPYING",
     "README.mkd",
     "Rakefile",
-    "lib/rubify.rb",
-    "lib/rubify/extensions.rb",
-    "lib/rubify/project.rb",
-    "lib/rubify/template.rb",
-    "rubify.gemspec",
+    "lib/prigner.rb",
+    "lib/prigner/extensions.rb",
+    "lib/prigner/project.rb",
+    "lib/prigner/template.rb",
+    "prigner.gemspec",
     "test/fixtures/project/foo/bin/foo",
     "test/fixtures/project/foo/config/foo.yml",
     "test/fixtures/project/foo/test/foo_test.rb",
@@ -56,19 +56,19 @@ Gem::Specification.new do |spec|
     "--inline-source",
     "--line-numbers",
     "--charset", "utf8",
-    "--main", "Rubify",
-    "--title", "Rubify API Documentation"
+    "--main", "Prigner",
+    "--title", "Prigner API Documentation"
   ]
 
   #rubygems
   spec.rubyforge_project = spec.name
   spec.post_install_message = <<-end_message.gsub(/^[ ]{4}/,'')
     #{'-'*78}
-    Rubify v#{spec.version}
+    Prigner v#{spec.version}
 
-    Thanks for use Rubify.
+    Thanks for use Prigner.
 
-    Please, feedback in http://codigorama.com/rubify/issues.
+    Please, feedback in http://codigorama.com/prigner/issues.
     #{'-'*78}
   end_message
   #

@@ -24,13 +24,13 @@ class Hash
 
   # Convert to Struct including all values that are Hash class.
   def to_struct
-    Struct.new(*self.keys).new(*self.keys.map do |key|
+    Struct.new(*self.symbolize_keys.keys).new(*self.keys.map do |key|
       if self[key].kind_of? Hash
         self[key].to_struct
       else
         self[key]
       end
-    end) unless self.keys.empty?
+    end) unless self.empty?
   end
 
 end
@@ -46,8 +46,18 @@ end
 
 class Struct
 
+  # Public bind.
   def binding
     super
   end
 
 end
+
+class Pathname
+
+  def chpath(source, path)
+    self.path.gsub(%r{#{source}}, path).to_path
+  end
+
+end
+

@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(BASE_PATH) unless $LOAD_PATH.include? BASE_PATH
 
 require "test/unit"
 require "test/helpers"
-require "lib/rubify"
+require "lib/prigner"
 
 class ModelTest < Test::Unit::TestCase
 
@@ -20,8 +20,8 @@ class ModelTest < Test::Unit::TestCase
         :delete
       ]
     }
-    @file  = "#{BASE_PATH}/test/fixtures/models/newproject.rb"
-    @model = Rubify::Model.new("test/fixtures/templates/project/lib/project.rb.erb", @binds)
+    @file  = "#{BASE_PATH}/test/fixtures/model-result.rb"
+    @model = Prigner::Model.new("test/fixtures/model.rb.erb", @binds)
   end
 
   def teardown

@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'rake/clean'
-require 'lib/rubify'
+require 'lib/prigner'
 
 # Helpers
 # =============================================================================
@@ -33,12 +33,12 @@ def log
 end
 
 def version
-  @version ||= Rubify.version
+  @version ||= Prigner.version
 end
 
 def gemspec
   @gemspec ||= Struct.new(:spec, :file).new
-  @gemspec.file ||= Pathname.new("rubify.gemspec")
+  @gemspec.file ||= Pathname.new("prigner.gemspec")
   @gemspec.spec ||= eval @gemspec.file.read
   @gemspec
 end
@@ -54,8 +54,8 @@ namespace :doc do
     rm_rf "doc"
     rdoc "--op", "doc/api",
          "--charset", "utf8",
-         "--main", "'Rubify'",
-         "--title", "'Rubify API Documentation'",
+         "--main", "'Prigner'",
+         "--title", "'Prigner API Documentation'",
          "--inline-source",
          "--promiscuous",
          "--line-numbers",
@@ -179,13 +179,13 @@ end
 namespace :test do
   desc "Start test GUI"
   task :gui do
-    system "testrb -v --runner=t test/*_test.rb &"
+    system "testrb -v --runner gtk2 test/*_test.rb &"
   end
 end
 
 desc "Run tests"
 task :test, [:pattern] do |spec, args|
-  test(args[:pattern] ? "test/#{args[:pattern]}*_test.rb" : "test/*_test.rb")
+  test(args[:pattern] ? "test/#{args[:pattern]}_test.rb" : "test/*_test.rb")
 end
 
 # Default

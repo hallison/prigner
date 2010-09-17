@@ -3,10 +3,10 @@
 # version: <%=version%>
 # author : <%=author%>
 
-module <%=name.capitalize%>
-<% functions.collect do |function| %>
+module Project
+<%for function in functions%>
   def <%=function%>
     # type code for <%=function%>
   end
-<% end %>
+<%end%>
 end

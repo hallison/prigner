@@ -1,43 +1,65 @@
-BASE_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
+ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
 
-$LOAD_PATH.unshift(BASE_PATH) unless $LOAD_PATH.include? BASE_PATH
+$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
 
 require "test/unit"
 require "test/helpers"
-require "lib/rubify"
+require "lib/prigner"
+
+class Prigner::Template
+  SHARED_PATH = [
+    "#{ROOT_PATH}/test/fixtures/templates/user",
+    "#{ROOT_PATH}/test/fixtures/templates/shared"
+  ]
+end
 
 class TemplateTest < Test::Unit::TestCase
 
   def setup
-    @config = {
-      :options => {
-        :gem   => "Include RubyGems contents.",
-        :setup => "Include setup.rb file for install."
-      }
+    @options = {
+      :svn => "Include Subversion keywords in code.",
+      :git => "Enable Git flags in templates."
     }
-    @path     = "#{BASE_PATH}/test/fixtures/templates/project"
-    @template = Rubify::Template.new(@path)
+    @path         = "#{ROOT_PATH}/test/fixtures/templates/shared/ruby/default"
+    @project_path = "#{ROOT_PATH}/test/fixtures/foo-project"
+    @template     = Prigner::Template.new(@path)
   end
 
-  should "check basic attributes of template" do
-    assert_equal "project", @template.name
-    assert_equal @path, @template.path
+  should "load basic attributes from directory name" do
+    assert_equal "ruby", @template.namespace
+    assert_equal "default", @template.name
   end
 
-  should "check options loaded from config file" do
-    @config.each do |key, values|
-      values.each do |name, desc|
-        assert_equal desc, @template.options.send(name).description
-      end
+  should "load options" do
+    @options.keys.each do |option|
+      assert_equal @options[option], @template.options[option].description
     end
   end
 
-  should "check if options disable by default" do
-    @config.each do |key, values|
-      values.each do |name, desc|
-        assert !@template.options.send(name).enabled
-      end
+  should "disable all options by default" do
+    @options.keys.each do |option|
+      assert !@template.options[option].enabled
     end
   end
+
+  should "load a template using namespace" do
+    template = Prigner::Template.load(:ruby)
+    assert_equal @path, template.path.to_s
+    assert_equal "ruby", template.namespace
+    assert_equal "default", template.name
+  end
+
+  should "load a template looking home user directory" do
+    ENV['HOME'] = "#{ROOT_PATH}/test/fixtures/templates/user"
+    template = Prigner::Template.load(:ruby, :program)
+    assert_equal "ruby", template.namespace
+    assert_equal "program", template.name
+  end
+
+  should "check number of models and directories" do
+    assert_equal 2, @template.directories.size
+    assert_equal 3, @template.models.size, "Models size not matched"
+  end
+
 end
 

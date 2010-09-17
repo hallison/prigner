@@ -1,12 +1,14 @@
 # This class implements several methods for load a model file of template.
-class Rubify::Model < ::Pathname
+class Prigner::Model
+
+  attr_reader :path
 
   attr_reader :content
 
   attr_reader :bind
 
   def initialize(path, binds = {})
-    super(path)
+    @path = Pathname.new(path)
     self.bind = binds
   end
 
@@ -16,7 +18,7 @@ class Rubify::Model < ::Pathname
 
   def build!
     require "erb"
-    @content = ::ERB.new(self.read).result(bind.binding)
+    @content = ::ERB.new(@path.read).result(bind.binding)
   end
 
   def draw(destination)
