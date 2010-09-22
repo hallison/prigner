@@ -21,7 +21,6 @@ class TemplateTest < Test::Unit::TestCase
       :git => "Enable Git flags in templates."
     }
     @path         = "#{ROOT_PATH}/test/fixtures/templates/shared/ruby/default"
-    @project_path = "#{ROOT_PATH}/test/fixtures/foo-project"
     @template     = Prigner::Template.new(@path)
   end
 

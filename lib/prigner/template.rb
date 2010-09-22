@@ -15,7 +15,7 @@
 # project using +specfile+.
 class Prigner::Template
 
-  SHARED_PATH = [ "#{ENV['HOME']}/.Prigner", "#{Prigner::ROOT}/share" ]
+  SHARED_PATH = [ "#{ENV['HOME']}/.prigner", "#{Prigner::ROOT}/share" ]
 
   # Namespace of template.
   attr_reader :namespace
@@ -29,7 +29,7 @@ class Prigner::Template
   # List of directories that will created in project tree.
   attr_reader :directories
 
-  # List of options (see Spec::options).
+  # List of options (see Spec#options).
   attr_reader :options
 
   # Path to template.

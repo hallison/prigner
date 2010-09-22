@@ -37,7 +37,7 @@ class ModelTest < Test::Unit::TestCase
   should "build contents" do
     @model.build!
 
-    assert_equal <<-end_result.gsub(/^[ ]{6}/, ''), @model.content
+    assert_equal <<-end_result.gsub(/^[ ]{6}/, ''), @model.contents
       #!/usr/bin/ruby
       # name   : project
       # version: 0.1.0
@@ -65,10 +65,10 @@ class ModelTest < Test::Unit::TestCase
     end_result
   end
 
-  should "draw file using content parsed" do
+  should "draw file using contents parsed" do
     @model.draw @file
     assert File.exist?(@file)
-    assert_equal @model.content, File.read(@file)
+    assert_equal @model.contents, File.read(@file)
   end
 
   should "creates the path of file before draw" do
@@ -76,7 +76,7 @@ class ModelTest < Test::Unit::TestCase
     @model.draw file
 
     assert File.exist?(file)
-    assert_equal @model.content, File.read(file)
+    assert_equal @model.contents, File.read(file)
 
     File.delete(file) 
   end

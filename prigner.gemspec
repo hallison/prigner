@@ -2,7 +2,7 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
 
   #about
-  spec.name = "Prigner"
+  spec.name = "prigner"
   spec.summary = "Project designer."
   spec.description = "Prigner is a Project Design Kit."
   spec.authors = ["Hallison Batista"]
@@ -26,17 +26,26 @@ Gem::Specification.new do |spec|
     "README.mkd",
     "Rakefile",
     "lib/prigner.rb",
+    "lib/prigner/builder.rb",
     "lib/prigner/extensions.rb",
-    "lib/prigner/project.rb",
+    "lib/prigner/model.rb",
     "lib/prigner/template.rb",
     "prigner.gemspec",
-    "test/fixtures/project/foo/bin/foo",
-    "test/fixtures/project/foo/config/foo.yml",
-    "test/fixtures/project/foo/test/foo_test.rb",
-    "test/fixtures/templates/foo.rb",
-    "test/fixtures/templates/foo.rb.erb",
+    "test/fixtures/model.rb.erb",
+    "test/fixtures/templates/shared/ruby/default/models/README.erb",
+    "test/fixtures/templates/shared/ruby/default/models/Rakefile.erb",
+    "test/fixtures/templates/shared/ruby/default/models/empty_test.rb.erb",
+    "test/fixtures/templates/shared/ruby/default/models/module.rb.erb",
+    "test/fixtures/templates/shared/ruby/default/specfile",
+    "test/fixtures/templates/user/ruby/program/models/README.erb",
+    "test/fixtures/templates/user/ruby/program/models/cli.rb.erb",
+    "test/fixtures/templates/user/ruby/program/models/module.rb.erb",
+    "test/fixtures/templates/user/ruby/program/models/program.rb.erb",
+    "test/fixtures/templates/user/ruby/program/specfile",
     "test/helpers.rb",
+    "test/model_test.rb",
     "test/project_test.rb",
+    "test/spec_test.rb",
     "test/template_test.rb"
   ]
   #
