@@ -15,9 +15,15 @@ def rdoc(*args)
   sh @rdoc.join(" ")
 end
 
-def test(*args)
-  @test ||= (Gem.available? "turn") ? ["turn", *args] : ["testrb", "-v", *args]
-  sh @test.join(" ")
+def test(pattern)
+  testfiles = Dir[pattern]
+  if Gem.available? "turn"
+    sh [ "turn", *testfiles ].join(" ")
+  else
+    testfiles.each do |testfile|
+      sh "ruby #{testfile}"
+    end
+  end
 end
 
 def manifest
@@ -55,7 +61,7 @@ namespace :doc do
     rdoc "--op", "doc/api",
          "--charset", "utf8",
          "--main", "'Prigner'",
-         "--title", "'Prigner API Documentation'",
+         "--title", "'Prigner v#{version.tag} API Documentation'",
          "--inline-source",
          "--promiscuous",
          "--line-numbers",
@@ -175,13 +181,6 @@ end
 
 # Test
 # =============================================================================
-
-namespace :test do
-  desc "Start test GUI"
-  task :gui do
-    system "testrb -v --runner gtk2 test/*_test.rb &"
-  end
-end
 
 desc "Run tests"
 task :test, [:pattern] do |spec, args|
