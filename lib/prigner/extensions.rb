@@ -1,3 +1,12 @@
+class Symbol
+
+  # Method for comparison between symbols.
+  def <=>(other)
+    self.to_s <=> other.to_s
+  end
+
+end
+
 class Hash
 
   # Only symbolize all keys, including all key in sub-hashes. 
@@ -24,7 +33,9 @@ class Hash
 
   # Convert to Struct including all values that are Hash class.
   def to_struct
-    Struct.new(*self.symbolize_keys.keys).new(*self.keys.map do |key|
+    keys    = self.keys.sort
+    members = keys.map{ |key| key.to_sym }
+    Struct.new(*members).new(*keys.map do |key|
       if self[key].kind_of? Hash
         self[key].to_struct
       else
