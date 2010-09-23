@@ -12,7 +12,7 @@ directories:
   - lib/(project)
 
 files:
-  README.mkd.erb    :
-  module.rb.erb     : lib/(project).rb
-  empty_test.rb.erb : test/(project)_test.rb
+  README.mkd    :
+  module.rb     : lib/(project).rb
+  empty_test.rb : test/(project)_test.rb
 
