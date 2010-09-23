@@ -1,4 +1,4 @@
-<%= '# $Id$' if option.svn.enabled -%>
+<%= '# $Id$' if option.svn.enabled %>
 require "lib/<%=project.name%>"
 
 task :test do |spec, args|

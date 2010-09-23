@@ -185,11 +185,34 @@ module Prigner
       upper_camel_case_namespace(nil)
     end
 
+    alias class_name upper_camel_case_name
+
     def lower_camel_case_name
       lower_camel_case_namespace(nil)
     end
 
   end # Project
+
+  class Bind
+    attr_reader :project
+
+    attr_reader :option
+
+    def initialize(project, option)
+      @project, @option = project, option
+    end
+
+    def binding
+      super
+    end
+
+  end
+
+  def self.build(path, namespace, basename = :default, &block)
+    project  = Project.new(path)
+    template = Template.load(namespace, basename)
+    template
+  end
 
 end # Prigner
 

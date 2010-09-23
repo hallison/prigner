@@ -64,27 +64,24 @@ class Prigner::Template
 
   # This method draw project structure. Basically, creates the project path and all
   # directories and draws all models to destination files.
-  def draw(project, &block) #:yield: project
-    project.path.mkpath
-    pwd = Dir.pwd
-    Dir.chdir(project.path)
+  def draw(path)
+    require "fileutils"
+    sys     = FileUtils
+    project = Prigner::Project.new(path)
+    workdir = sys.pwd
 
-    create_paths project do |basepath|
-      @directories.collect do |directory|
-        directory.gsub! /\((.*?)\)/ do
-          project.instance_eval($1, specfile, 1)
-        end
-        basepath.join(directory).mkpath
-      end
+    sys.mkdir_p(project.path)
+    sys.chdir(project.path)
+
+    directories_for project do |directory|
+      sys.mkdir_p directory
     end
 
-    #models.collect do |model|
-    #  model.draw model.chpath() do |file|
-    #    model.file
-    #  end
-    #end
-    yield project
-    Dir.chdir(pwd)
+    models_for project do |model, file|
+      model.write file
+    end
+
+    sys.chdir(workdir)
   end
 
   private
@@ -111,9 +108,32 @@ class Prigner::Template
 
   def initialize_models
     @models = @spec.files.inject({}) do |models, (model, file)|
-      models[Prigner::Model.new("#{@path}/models/#{model}")] = file ? file : File.basename(model, ".erb")
+      models["#{@path}/models/#{model}"] = file ? file : "#{@path}/#{model}"
       models
     end
   end
+
+  def directories_for(project, &block)
+    @directories.collect do |directory|
+      directory.gsub! /\((.*?)\)/ do
+        "#{project.send($1)}"
+      end
+    end
+    @directories.map(&block)
+  end
+
+  def models_for(project, &block)
+    @models = @models.inject({}) do |hash, (source, file)|
+      file.gsub! /\((.*?)\)/ do
+        project.send($1)
+      end
+      bind  = Prigner::Bind.new(project, @options)
+      model = Prigner::Model.new(source, bind)
+      hash[model] = file
+      hash
+    end
+    @models.map(&block)
+  end
+
 end
 

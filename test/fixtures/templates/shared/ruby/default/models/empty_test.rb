@@ -1,13 +1,13 @@
-<%= '# $Id$' if option.svn.enabled -%>
+<%= '# $Id$' if option.svn.enabled %>
 BASE_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
 
 $LOAD_PATH.unshift(BASE_PATH) unless $LOAD_PATH.include? BASE_PATH
 
 require "test/unit"
 require "test/helpers"
-require "lib/<%=name%>"
+require "lib/<%=project.name%>"
 
-class <%=name.capitalize%>Test < Test::Unit::TestCase
+class <%=project.class_name%>Test < Test::Unit::TestCase
 
   def setup
     # start here

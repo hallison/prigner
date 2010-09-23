@@ -1,4 +1,4 @@
-ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
+ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined? ROOT_PATH
 
 $LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
 
@@ -21,7 +21,12 @@ class TemplateTest < Test::Unit::TestCase
       :git => "Enable Git flags in templates."
     }
     @path         = "#{ROOT_PATH}/test/fixtures/templates/shared/ruby/default"
+    @project_path = "#{ROOT_PATH}/test/fixtures/project/foo"
     @template     = Prigner::Template.new(@path)
+  end
+
+  def teardown
+    FileUtils.remove_dir @project_path if File.exist? @project_path
   end
 
   should "load basic attributes from directory name" do
@@ -58,6 +63,26 @@ class TemplateTest < Test::Unit::TestCase
   should "check number of models and directories" do
     assert_equal 2, @template.directories.size
     assert_equal 3, @template.models.size, "Models size not matched"
+  end
+
+  should "create project" do
+    @template.draw @project_path
+    assert File.exist?(@project_path)
+  end
+
+  should "create project directories" do
+    @template.draw @project_path
+    @template.directories.each do |directory|
+      assert File.exist?("#{@project_path}/#{directory}")
+    end
+  end
+
+  should "create project files" do
+   # @template.draw @project_path
+   # @template.models.each do |model, file|
+   #   assert File.exist?(file)
+   #   assert_equal file, model.file_written
+   # end
   end
 
 end
