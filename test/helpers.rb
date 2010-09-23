@@ -3,7 +3,8 @@
 module Test::Unit
   class TestCase
     def self.should(description, &block)
-      test_name = "test_#{description.gsub(/\s+/,'_')}".to_sym
+      @index ||= 1
+      test_name = ("test%02d_#{description.gsub(/\s+/,'_')}" % @index).to_sym
       defined = instance_method(test_name) rescue false
       raise "#{test_name} is already defined in #{self}" if defined
       if block_given?
@@ -13,6 +14,7 @@ module Test::Unit
           flunk "No implementation provided for #{description}"
         end
       end
+      @index += 1
     end
   end
 end
