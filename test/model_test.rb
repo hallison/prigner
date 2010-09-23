@@ -1,6 +1,6 @@
-BASE_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
+ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined? ROOT_PATH
 
-$LOAD_PATH.unshift(BASE_PATH) unless $LOAD_PATH.include? BASE_PATH
+$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
 
 require "test/unit"
 require "test/helpers"
@@ -20,7 +20,7 @@ class ModelTest < Test::Unit::TestCase
         :delete
       ]
     }
-    @file  = "#{BASE_PATH}/test/fixtures/model-result.rb"
+    @file  = "#{ROOT_PATH}/test/fixtures/model-result.rb"
     @model = Prigner::Model.new("test/fixtures/model.rb.erb", @binds)
   end
 
@@ -65,18 +65,19 @@ class ModelTest < Test::Unit::TestCase
     end_result
   end
 
-  should "draw file using contents parsed" do
-    @model.draw @file
+  should "write file using contents parsed" do
+    @model.write @file
     assert File.exist?(@file)
     assert_equal @model.contents, File.read(@file)
   end
 
-  should "creates the path of file before draw" do
-    file = "#{BASE_PATH}/test/fixtures/models/should-exist-new-project.rb"
-    @model.draw file
+  should "write result file" do
+    file = "#{ROOT_PATH}/test/fixtures/models/should-exist-new-project.rb"
+    @model.write file
 
-    assert File.exist?(file)
+    assert_equal file, @model.file_written
     assert_equal @model.contents, File.read(file)
+    assert File.exist?(file)
 
     File.delete(file) 
   end

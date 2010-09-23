@@ -1,6 +1,6 @@
-BASE_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
+ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless ROOT_PATH
 
-$LOAD_PATH.unshift(BASE_PATH) unless $LOAD_PATH.include? BASE_PATH
+$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
 
 require "test/unit"
 require "test/helpers"
@@ -8,7 +8,7 @@ require "lib/prigner"
 
 class ProjectTest < Test::Unit::TestCase
 
-  PATH = Pathname.new(BASE_PATH).expand_path
+  PATH = Pathname.new(ROOT_PATH).expand_path
 
   def setup
     @project = Prigner::Project.new("test/fixtures/project/ruby-tagger")

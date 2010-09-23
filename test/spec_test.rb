@@ -1,4 +1,4 @@
-ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.."
+ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined? ROOT_PATH
 
 $LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
 
@@ -24,9 +24,9 @@ class SpecTest < Test::Unit::TestCase
       "lib/(project)"
     ]
     @files = {
-      "README.mkd.erb" => nil,
-      "module.rb.erb"  => "lib/(project).rb",
-      "empty_test.rb.erb" => "test/(project)_test.rb"
+      "README.mkd" => nil,
+      "module.rb"  => "lib/(project).rb",
+      "empty_test.rb" => "test/(project)_test.rb"
     }
     specfile = "#{ROOT_PATH}/test/fixtures/templates/shared/ruby/default/specfile"
     @spec = Prigner::Spec.load(specfile)
