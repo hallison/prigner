@@ -51,8 +51,8 @@ class Prigner::Template
     initialize_models
   end
 
-  # Load template from shared_path. The shared_path set the home user directory
-  # and Prigner::Template shared files.
+  # Load template from shared directories. The shared path set the home user
+  # directory and Prigner::Template shared files.
   def self.load(namespace, template = :default)
     shared_path.map do |source|
       path = "#{source}/#{namespace}/#{template}"
@@ -60,10 +60,12 @@ class Prigner::Template
     end
   end
 
+  # Look at user home and template shared path.
   def self.shared_path
     [ File.join(user_home, ".prigner"), "#{Prigner::ROOT}/share" ]
   end
 
+  # User home.
   def self.user_home
     File.expand_path "~"
   rescue
@@ -127,7 +129,7 @@ class Prigner::Template
 
   def directories_for(project, &block)
     @directories.collect do |directory|
-      directory.gsub! /\((.*?)\)/ do
+      directory.gsub!(/\((.*?)\)/) do
         "#{project.send($1)}"
       end
     end
@@ -136,12 +138,12 @@ class Prigner::Template
 
   def models_for(project, &block)
     @models = @models.inject({}) do |hash, (source, file)|
-      file.gsub! /\((.*?)\)/ do
+      file.gsub!(/\((.*?)\)/) do
         project.send($1)
       end
       bind  = Prigner::Bind.new(project, @options)
       model = Prigner::Model.new(source, bind)
-      hash[model] = file
+      hash[model] = File.join(project.path, file)
       hash
     end
     @models.map(&block)

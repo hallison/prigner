@@ -78,11 +78,11 @@ class TemplateTest < Test::Unit::TestCase
   end
 
   should "create project files" do
-   # @template.draw @project_path
-   # @template.models.each do |model, file|
-   #   assert File.exist?(file)
-   #   assert_equal file, model.file_written
-   # end
+    @template.draw @project_path
+    @template.models.map do |model, file|
+      assert File.exist?(file), "File #{file} not found"
+      assert_equal file, model.file_written
+    end
   end
 
 end
