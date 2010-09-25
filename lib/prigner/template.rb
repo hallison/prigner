@@ -15,8 +15,6 @@
 # project using +specfile+.
 class Prigner::Template
 
-  SHARED_PATH = [ "#{ENV['HOME']}/.prigner", "#{Prigner::ROOT}/share" ]
-
   # Namespace of template.
   attr_reader :namespace
 
@@ -53,12 +51,26 @@ class Prigner::Template
     initialize_models
   end
 
-  # Load template from SHARED_PATH. The SHARED_PATH set the home user directory
+  # Load template from shared_path. The shared_path set the home user directory
   # and Prigner::Template shared files.
   def self.load(namespace, template = :default)
-    SHARED_PATH.map do |source|
+    shared_path.map do |source|
       path = "#{source}/#{namespace}/#{template}"
       return new(path) if File.exist? path
+    end
+  end
+
+  def self.shared_path
+    [ File.join(user_home, ".prigner"), "#{Prigner::ROOT}/share" ]
+  end
+
+  def self.user_home
+    File.expand_path "~"
+  rescue
+    if File::ALT_SEPARATOR then
+      "C:/"
+    else
+      "/"
     end
   end
 

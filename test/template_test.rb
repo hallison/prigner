@@ -7,10 +7,10 @@ require "test/helpers"
 require "lib/prigner"
 
 class Prigner::Template
-  SHARED_PATH = [
-    "#{ROOT_PATH}/test/fixtures/templates/user",
-    "#{ROOT_PATH}/test/fixtures/templates/shared"
-  ]
+  def self.shared_path
+    [ "#{ROOT_PATH}/test/fixtures/templates/user",
+      "#{ROOT_PATH}/test/fixtures/templates/shared" ]
+  end
 end
 
 class TemplateTest < Test::Unit::TestCase
