@@ -54,10 +54,7 @@ class Prigner::Template
   # Load template from shared directories. The shared path set the home user
   # directory and Prigner::Template shared files.
   def self.load(namespace, template = :default)
-    shared_path.map do |source|
-      path = "#{source}/#{namespace}/#{template}"
-      return new(path) if File.exist? path
-    end
+    return new(all[namespace.to_s][template.to_s])
   end
 
   # Look at user home and template shared path.
@@ -74,6 +71,19 @@ class Prigner::Template
     else
       "/"
     end
+  end
+
+  def self.all
+    namespaces = {}
+    shared_path.map do |share|
+      Dir["#{share}/*/*"].sort.map do |path|
+        template  = File.basename(path)
+        namespace = File.basename(File.dirname(path))
+        namespaces[namespace] ||= {}
+        namespaces[namespace][template] = path
+      end
+    end
+    namespaces
   end
 
   # This method draw project structure. Basically, creates the project path and all

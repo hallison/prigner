@@ -85,5 +85,15 @@ class TemplateTest < Test::Unit::TestCase
     end
   end
 
+  should "list all templates from shared path" do
+    assert_equal 3, Prigner::Template.all.keys.size
+    %w[bash ruby vim].map do |namespace|
+      assert Prigner::Template.all.has?(namespace)
+    end
+    assert_equal 1, Prigner::Template.all["bash"].size
+    assert_equal 2, Prigner::Template.all["ruby"].size
+    assert_equal 3, Prigner::Template.all["vim"].size
+  end
+
 end
 

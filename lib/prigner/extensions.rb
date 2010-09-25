@@ -9,6 +9,8 @@ end
 
 class Hash
 
+  alias has? has_key?
+
   # Only symbolize all keys, including all key in sub-hashes. 
   def symbolize_keys
     return self.clone if self.empty?
