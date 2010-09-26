@@ -3,6 +3,7 @@
 #@ :date: 2009-07-16
 #@ :milestone: Pre-Alpha
 #@ :timestamp: 2009-07-16 14:05:16 -04:00
+# encoding: UTF-8
 
 # Copyright (c) 2009, 2010, Hallison Batista
 
@@ -148,10 +149,14 @@ module Prigner
     # Project files.
     attr_reader :path
 
+    # Project timestamp
+    attr_reader :timestamp
+
     # Initialize a new project directory path.
     def initialize(path)
       @path = File.expand_path(path =~ /^\/.*/ ? path : "#{Dir.pwd}/#{path}")
       @name = File.basename(@path)
+      @timestamp = DateTime.now
     end
 
     def name_splited
@@ -191,15 +196,33 @@ module Prigner
       lower_camel_case_namespace(nil)
     end
 
+    def user
+      Etc.getpwnam(Etc.getlogin)
+    end
+
+    def author
+      self.user.gecos.split(",").first
+    end
+
   end # Project
 
   class Bind
     attr_reader :project
 
-    attr_reader :option
+    attr_reader :options
 
-    def initialize(project, option)
-      @project, @option = project, option
+    alias option options
+
+    def initialize(project, options)
+      @project, @options = project, options
+    end
+
+    def date
+      Date.today
+    end
+
+    def enabled?(option, &block)
+      yield block if @options[option].enabled
     end
 
     def binding
@@ -212,6 +235,42 @@ module Prigner
     project  = Project.new(path)
     template = Template.load(namespace, basename)
     template
+  end
+
+  # == Prigner Command-Line Interface
+  #
+  # This module look a command placed in CLI directory and run it.
+  module CLI
+    require "rbconfig"
+
+    # Ruby VM installed in OS.
+    def self.ruby
+      File.join(*::RbConfig::CONFIG.values_at("bindir", "ruby_install_name")) +
+      ::RbConfig::CONFIG["EXEEXT"]
+    end
+
+    # The CLI path.
+    def self.path
+      "#{ROOT}/lib/prigner/cli"
+    end
+
+    # List of commands placed in <tt>lib/prigner/cli/</tt>.
+    def self.commands
+      Dir["#{path}/*.rb"].map do |source|
+        File.basename(source, ".rb")
+      end
+    end
+
+    # Source command placed in CLI directory.
+    def self.source(command)
+      "#{path}/#{command}.rb"
+    end
+
+    # Look command in *CLI* directory and execute (by exec).
+    def self.run(command)
+      exec ruby, source(command), *ARGV if commands.include? command
+    end
+
   end
 
 end # Prigner
