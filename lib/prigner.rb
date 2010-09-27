@@ -258,7 +258,7 @@ module Prigner
     def self.commands
       Dir["#{path}/*.rb"].map do |source|
         File.basename(source, ".rb")
-      end
+      end.sort
     end
 
     # Source command placed in CLI directory.
