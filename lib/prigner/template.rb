@@ -59,7 +59,7 @@ class Prigner::Template
 
   # Look at user home and template shared path.
   def self.shared_path
-    [ File.join(user_home, ".prigner"), "#{Prigner::ROOT}/share" ]
+    [ user_home_templates, "#{Prigner::ROOT}/share" ]
   end
 
   # User home.
@@ -73,6 +73,17 @@ class Prigner::Template
     end
   end
 
+  # User home base directory for Prigner files.
+  def self.user_home_basedir
+    File.join(user_home, ".prigner")
+  end
+
+  # User home templates.
+  def self.user_home_templates
+    File.join(user_home_basedir, "templates")
+  end
+
+  # All 
   def self.all
     namespaces = {}
     shared_path.map do |share|
