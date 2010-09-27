@@ -143,7 +143,7 @@ class Prigner::Template
 
   def initialize_models
     @models = @spec.files.inject({}) do |models, (model, file)|
-      models["#{@path}/models/#{model}"] = file ? file : "#{@path}/#{model}"
+      models["#{@path}/models/#{model}"] = file ? file : model
       models
     end
   end
