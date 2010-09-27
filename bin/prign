@@ -19,7 +19,7 @@ ARGV.options do |arguments|
       #{program} [options]
 
     Commands:
-      #{Prigner::CLI.commands.join("\n#{arguments.summary_indent}")}
+      #{Prigner::CLI.commands.join(", ")}
 
       Run command with option "-h" or "--help" for more information.
 
@@ -27,8 +27,15 @@ ARGV.options do |arguments|
 
   arguments.separator "Global options:"
 
-  arguments.on("-h", "--help",    nil, "Show this message.")        { puts arguments }
-  arguments.on(nil,  "--version", nil, "Show version information.") { puts Prigner::Version }
+  arguments.on("-c", "--commands", nil, "Show only command names.") do
+    puts Prigner::CLI.commands.join("\n")
+  end
+  arguments.on("-h", "--help", nil, "Show this message.") do
+    puts arguments
+  end
+  arguments.on(nil,  "--version", nil, "Show version information.") do
+    puts Prigner::Version
+  end
 
   arguments.separator ""
 
