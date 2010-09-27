@@ -13,20 +13,19 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 module Prigner
 
   # Standard library requirements
-  require 'pathname'
-  require 'optparse'
-  require 'yaml'
+  require "pathname"
+  require "optparse"
+  require "yaml"
 
   # Internal requirements
-  require 'prigner/extensions'
+  require "prigner/extensions"
 
   # Root directory for project.
   ROOT = Pathname.new(__FILE__).dirname.join('..').expand_path.freeze
 
   # Modules
-  autoload :Model,    "prigner/model"
-  autoload :Template, "prigner/template"
-  autoload :Builder,  "prigner/builder"
+  require "prigner/model"
+  require "prigner/template"
 
   # Return the current version.
   def self.version
