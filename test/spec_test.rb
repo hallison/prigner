@@ -1,10 +1,6 @@
-ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined? ROOT_PATH
-
-$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
-
 require "test/unit"
 require "test/helpers"
-require "lib/prigner"
+require "prigner"
 
 class SpecTest < Test::Unit::TestCase
 
@@ -28,7 +24,7 @@ class SpecTest < Test::Unit::TestCase
       "module.rb"  => "lib/(project).rb",
       "empty_test.rb" => "test/(project)_test.rb"
     }
-    specfile = "#{ROOT_PATH}/test/fixtures/templates/shared/ruby/default/specfile"
+    specfile = "#{FIXTURES}/templates/shared/ruby/default/specfile"
     @spec = Prigner::Spec.load(specfile)
   end
 

@@ -1,21 +1,15 @@
-ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless ROOT_PATH
-
-$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
-
 require "test/unit"
 require "test/helpers"
-require "lib/prigner"
+require "prigner"
 
 class ProjectTest < Test::Unit::TestCase
 
-  PATH = Pathname.new(ROOT_PATH).expand_path
-
   def setup
-    @project = Prigner::Project.new("test/fixtures/project/ruby-tagger")
+    @project = Prigner::Project.new("#{FIXTURES}/project/ruby-tagger")
   end
 
   should "check basic attributes of project" do
-    assert_equal "#{PATH}/test/fixtures/project/ruby-tagger", @project.path
+    assert_equal "#{FIXTURES}/project/ruby-tagger", @project.path
     assert_equal "ruby-tagger", @project.name
   end
 

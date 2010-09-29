@@ -1,10 +1,6 @@
-ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined? ROOT_PATH
-
-$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
-
 require "test/unit"
 require "test/helpers"
-require "lib/prigner"
+require "prigner"
 
 class ModelTest < Test::Unit::TestCase
 
@@ -20,8 +16,8 @@ class ModelTest < Test::Unit::TestCase
         :delete
       ]
     }
-    @file  = "#{ROOT_PATH}/test/fixtures/model-result.rb"
-    @model = Prigner::Model.new("test/fixtures/model.rb.erb", @binds)
+    @file  = "#{FIXTURES}/model-result.rb"
+    @model = Prigner::Model.new("#{FIXTURES}/model.rb.erb", @binds)
   end
 
   def teardown
@@ -72,7 +68,7 @@ class ModelTest < Test::Unit::TestCase
   end
 
   should "write result file" do
-    file = "#{ROOT_PATH}/test/fixtures/models/should-exist-new-project.rb"
+    file = "#{FIXTURES}/models/should-exist-new-project.rb"
     @model.write file
 
     assert_equal file, @model.file_written

@@ -7,8 +7,6 @@
 
 # Copyright (c) 2009, 2010, Hallison Batista
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-
 # The Prigner is a Projec Design Kit which help developers in DRY.
 module Prigner
 

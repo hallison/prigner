@@ -1,16 +1,12 @@
-ROOT_PATH = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined? ROOT_PATH
-
-$LOAD_PATH.unshift(ROOT_PATH) unless $LOAD_PATH.include? ROOT_PATH
-
 require "test/unit"
 require "test/helpers"
-require "lib/prigner"
+require "prigner"
 
 class BuilderTest < Test::Unit::TestCase
 
   def setup
     @template = Prigner::Template.load(:ruby)
-    @project  = Prigner::Project.new("#{ROOT_PATH}/test/fixtures/project/duck")
+    @project  = Prigner::Project.new("#{FIXTURES}/project/duck")
     @builder  = Prigner::Builder.new(@project, @template)
   end
 

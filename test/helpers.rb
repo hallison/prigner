@@ -1,5 +1,8 @@
 # This code extracted from book "Ruby Best Practices" and the code be found
 # in http://github.com/sandal/rbp/blob/master/testing/test_unit_extensions.rb
+
+FIXTURES = File.expand_path(File.join(File.dirname(__FILE__), "fixtures")) unless defined? FIXTURES
+
 module Test::Unit
   class TestCase
     def self.should(description, &block)
