@@ -8,6 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Hallison Batista"]
   spec.email = "hallison.batista@gmail.com"
   spec.homepage = "http://codigorama.com/produtos/prigner"
+  spec.executables = [ "prign" ]
+  spec.default_executable = "prign"
   #
 
   #version
