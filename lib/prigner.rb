@@ -24,8 +24,11 @@ module Prigner
   ROOT = Pathname.new(__FILE__).dirname.join('..').expand_path.freeze
 
   # Modules
-  require "prigner/model"
-  require "prigner/template"
+  autoload :Project,  "prigner/project"
+  autoload :Model,    "prigner/model"
+  autoload :Template, "prigner/template"
+  autoload :Builder,  "prigner/builder"
+  autoload :CLI,      "prigner/cli"
 
   # Return the current version.
   def self.version
@@ -134,84 +137,22 @@ module Prigner
 
   end # Spec
 
-  # == Project
+  # == Binder to common filters
   #
-  # This class is a simple implementation of a directory tree using the Pathname
-  # class from Ruby Standard Library. It is used in model files.
-  class Project
+  # When a new Project is created, then several filters are available to use
+  # in Skel files.
+  class Binder
 
-    # Project name.
-    attr_reader :name
-
-    alias project name
-
-    # Project files.
-    attr_reader :path
-
-    # Project timestamp
-    attr_reader :timestamp
-
-    # Initialize a new project directory path.
-    def initialize(path)
-      @path = File.expand_path(path =~ /^\/.*/ ? path : "#{Dir.pwd}/#{path}")
-      @name = File.basename(@path)
-      @timestamp = DateTime.now
-    end
-
-    def name_splited
-      @name.split(/[-_]/)
-    end
-
-    def namespace(joiner = "::")
-      name_splited.join(joiner)
-    end
-
-    def upper_camel_case_namespace(joiner = "::")
-      name_splited.map{ |str| str.capitalize }.join(joiner)
-    end
-
-    def lower_camel_case_namespace(joiner = "::")
-      return name if name_splited.size == 0
-      name_splited[1..-1].map do |str|
-        str.capitalize
-      end.unshift(name_splited.first).join(joiner)
-    end
-
-    def upper_case_namespace(joiner = "::")
-      upper_camel_case_namespace(joiner).upcase
-    end
-
-    def lower_case_namespace(joiner = "::")
-      upper_camel_case_namespace(joiner).downcase
-    end
-
-    def upper_camel_case_name
-      upper_camel_case_namespace(nil)
-    end
-
-    alias class_name upper_camel_case_name
-
-    def lower_camel_case_name
-      lower_camel_case_namespace(nil)
-    end
-
-    def user
-      Etc.getpwnam(Etc.getlogin)
-    end
-
-    def author
-      self.user.gecos.split(",").first
-    end
-
-  end # Project
-
-  class Bind
+    # Project.
     attr_reader :project
 
+    # Template options.
     attr_reader :options
 
     alias option options
 
+    # The binder work binding to Project filters and Template options for use
+    # in Skel files.
     def initialize(project, options)
       @project, @options = project, options
     end
@@ -220,54 +161,13 @@ module Prigner
       Date.today.clone
     end
 
+    # Check if an options is enabled in Template.
     def enabled?(option, &block)
       yield block if @options[option].enabled
     end
 
-    def binding
+    def binding #:nodoc:
       super
-    end
-
-  end
-
-  def self.build(path, namespace, basename = :default, &block)
-    project  = Project.new(path)
-    template = Template.load(namespace, basename)
-    template
-  end
-
-  # == Prigner Command-Line Interface
-  #
-  # This module look a command placed in CLI directory and run it.
-  module CLI
-    require "rbconfig"
-
-    # Ruby VM installed in OS.
-    def self.ruby
-      File.join(*::RbConfig::CONFIG.values_at("bindir", "ruby_install_name")) +
-      ::RbConfig::CONFIG["EXEEXT"]
-    end
-
-    # The CLI path.
-    def self.path
-      "#{ROOT}/lib/prigner/cli"
-    end
-
-    # List of commands placed in <tt>lib/prigner/cli/</tt>.
-    def self.commands
-      Dir["#{path}/*.rb"].map do |source|
-        File.basename(source, ".rb")
-      end.sort
-    end
-
-    # Source command placed in CLI directory.
-    def self.source(command)
-      "#{path}/#{command}.rb"
-    end
-
-    # Look command in *CLI* directory and execute (by exec).
-    def self.run(command)
-      exec ruby, source(command), *ARGV if commands.include? command
     end
 
   end

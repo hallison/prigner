@@ -30,7 +30,7 @@ class ModelTest < Test::Unit::TestCase
 
   should "check bind values" do
     @binds.map do |key, value|
-      assert_equal value, @model.bind.send(key)
+      assert_equal value, @model.binder.send(key)
     end
   end
 

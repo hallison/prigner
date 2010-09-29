@@ -1,59 +1,39 @@
-class Rubify::Builder
+class Prigner::Builder
 
-  def self.evaluate(buildfile)
-    builder = new
-    builder.instance_eval(File.read(buildfile.to_s), buildfile.to_s, 1)
-    builder
+  require "fileutils"
+
+  include FileUtils
+
+  attr_reader :project
+
+  attr_reader :template
+
+  def initialize(project, template)
+    @project, @template = project, template
   end
 
-  def metainfo(&block)
-    @block = :metainfo
-    yield
-    @block = nil
+  def make_project_path
+    mkdir_p(@project.path)
+    yield [ @project.path, File.exist?(@project.path) ]
   end
 
-  def options(&block)
-    @block = :options
-  end
-
-  def models(&block)
-    @block = :models
-    yield
-    @block = nil
-  end
-
-  def method_missing(key, *args)
-    if within_block? and namespace.include? key.to_s
-      config key, args.first
-    else
-      super(key, *args)
+  def make_project_directories
+    @template.directories.collect do |basedir|
+      directory = basedir.gsub(/\((.*?)\)/){ @project.send($1) }
+      path      = File.join(@project.path, directory)
+      mkdir_p(path)
+      yield [ path, File.exist?(path) ]
     end
   end
 
-private
-
-  def initialize
-    @metainfo    = {}
-    @options     = {}
-    @directories = []
-    @models      = {}
-    @namespace   = {
-      :metainfo => %w{author email version description},
-      :options  => %w{on},
-      :models   => %w{source}
-    }
-  end
-
-  def config(key, value)
-    instance_variable_get("@#{@block}")[key] = value
-  end
-
-  def namespace
-    @namespace[@block]
-  end
-
-  def within_block?
-    !@block.nil?
+  def make_project_files
+    @template.models.map do |model, basename|
+      file = basename.gsub(/\((.*?)\)/){ project.send($1) }
+      path = File.join(@project.path, file)
+      model.binder = Prigner::Binder.new(@project, @template.options)
+      model.write(path)
+      yield [ model.file_written, File.exist?(model.file_written) ]
+    end
   end
 
 end

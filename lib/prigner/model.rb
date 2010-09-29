@@ -65,21 +65,21 @@ class Prigner::Model
   attr_reader :contents
 
   # Value bindings.
-  attr_reader :bind
+  attr_accessor :binder
 
   # Result file written
   attr_reader :file_written
 
   # Initializes a model passing all attributes by Hash.
-  def initialize(path, bind = {})
-    @path = Pathname.new(path)
-    @bind = (bind.kind_of? Hash) ? bind.to_struct : bind
+  def initialize(path, binder = {})
+    @path   = Pathname.new(path)
+    @binder = (binder.kind_of? Hash) ? binder.to_struct : binder
   end
 
   # Build model contents.
   def build!
     require "erb"
-    @contents = ::ERB.new(@path.read).result(bind.binding)
+    @contents = ::ERB.new(@path.read).result(binder.binding)
   end
 
   # Write contents into file.
