@@ -46,5 +46,23 @@ class SpecTest < Test::Unit::TestCase
     end
   end
 
+  should "set default values when initialize with emtpy attributes" do
+    spec = Prigner::Spec.new(nil)
+    assert_kind_of Array, spec.directories
+    assert_kind_of Hash,  spec.files
+    assert_kind_of Hash,  spec.options
+  end
+
+  should "raise runtime error if specfile is nil" do
+    assert_raises RuntimeError do
+      Prigner::Spec.load(nil)
+    end
+  end
+
+  should "raise runtime error if specfile not exist" do
+    assert_raises RuntimeError do
+      Prigner::Spec.load("not/found")
+    end
+  end
 end
 

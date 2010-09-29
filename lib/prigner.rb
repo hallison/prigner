@@ -140,6 +140,8 @@ module Prigner
     # Load a Specfile and initialize a new Spec that be used in Template.
     def self.load(specfile)
       new(YAML.load_file(specfile))
+    rescue Exception => error
+      raise RuntimeError, "Specfile not found."
     end
 
   end # Spec

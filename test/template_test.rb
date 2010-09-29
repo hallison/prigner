@@ -76,5 +76,10 @@ class TemplateTest < Test::Unit::TestCase
     assert_equal 3, Prigner::Template.all["vim"].size
   end
 
+  should "raise runtime error when specfile not found" do
+    assert_raises RuntimeError do
+      Prigner::Template.new("not/exist")
+    end
+  end
 end
 

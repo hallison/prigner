@@ -110,7 +110,9 @@ class Prigner::Template
 
   # Load +specfile+ placed in template path.
   def initialize_specfile
-    @spec = Prigner::Spec.load(specfile) if specfile
+    @spec = Prigner::Spec.load(specfile)
+  rescue Exception => error
+    raise RuntimeError, "No specfile in #{@path}."
   end
 
   # Initialize options.
