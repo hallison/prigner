@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift File.dirname(__FILE__)
+$LOAD_PATH.unshift File.dirname(__FILE__) unless $LOAD_PATH.include?File.dirname(__FILE__)
 
 require 'rake/clean'
 require 'lib/prigner'

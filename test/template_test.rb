@@ -65,31 +65,12 @@ class TemplateTest < Test::Unit::TestCase
     assert_equal 3, @template.models.size, "Models size not matched"
   end
 
-  should "create project" do
-    @template.draw @project_path
-    assert File.exist?(@project_path)
+  should "list all template paths from shared path" do
+    assert_equal 6, Prigner::Template.all_template_paths.size
   end
 
-  should "create project directories" do
-    @template.draw @project_path
-    @template.directories.each do |directory|
-      assert File.exist?("#{@project_path}/#{directory}")
-    end
-  end
-
-  should "create project files" do
-    @template.draw @project_path
-    @template.models.map do |model, file|
-      assert File.exist?(file), "File #{file} not found"
-      assert_equal file, model.file_written
-    end
-  end
-
-  should "list all templates from shared path" do
+  should "list all templates grouped by namespace" do
     assert_equal 3, Prigner::Template.all.keys.size
-    %w[bash ruby vim].map do |namespace|
-      assert Prigner::Template.all.has?(namespace)
-    end
     assert_equal 1, Prigner::Template.all["bash"].size
     assert_equal 2, Prigner::Template.all["ruby"].size
     assert_equal 3, Prigner::Template.all["vim"].size

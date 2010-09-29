@@ -124,7 +124,7 @@ module Prigner
     def initialize(attributes = {})
       attributes.each do |attribute, value|
         instance_variable_set "@#{attribute}", value if self.respond_to? attribute
-      end
+      end if attributes
     end
 
     # Load a Specfile and initialize a new Spec that be used in Template.
@@ -217,7 +217,7 @@ module Prigner
     end
 
     def date
-      Date.today
+      Date.today.clone
     end
 
     def enabled?(option, &block)

@@ -54,11 +54,15 @@ class Prigner::Template
   # Load template from shared directories. The shared path set the home user
   # directory and Prigner::Template shared files.
   def self.load(namespace, template = :default)
-    return new(all[namespace.to_s][template.to_s])
+    shared_path.map do |source|
+      path = "#{source}/#{namespace}/#{template}"
+      return new(path) if File.exist? path
+    end
   end
 
   # Look at user home and template shared path.
   def self.shared_path
+    user_home_templates = File.join(user_home_basedir, "templates")
     [ user_home_templates, "#{Prigner::ROOT}/share" ]
   end
 
@@ -78,45 +82,23 @@ class Prigner::Template
     File.join(user_home, ".prigner")
   end
 
-  # User home templates.
-  def self.user_home_templates
-    File.join(user_home_basedir, "templates")
+  # Return all template paths placed in shared user or in project base
+  # directory.
+  def self.all_template_paths
+    shared_path.map do |source|
+      Dir.glob("#{source}/*/*")
+    end.flatten.compact
   end
 
-  # All 
+  # All templates grouped by namespace.
   def self.all
-    namespaces = {}
-    shared_path.map do |share|
-      Dir["#{share}/*/*"].sort.map do |path|
-        template  = File.basename(path)
-        namespace = File.basename(File.dirname(path))
-        namespaces[namespace] ||= {}
-        namespaces[namespace][template] = path
-      end
+    all_template_paths.map do |path|
+      new(path)
+    end.inject({}) do |group, template|
+      group[template.namespace] ||= []
+      group[template.namespace] << template
+      group
     end
-    namespaces
-  end
-
-  # This method draw project structure. Basically, creates the project path and all
-  # directories and draws all models to destination files.
-  def draw(path)
-    require "fileutils"
-    sys     = FileUtils
-    project = Prigner::Project.new(path)
-    workdir = sys.pwd
-
-    sys.mkdir_p(project.path)
-    sys.chdir(project.path)
-
-    directories_for project do |directory|
-      sys.mkdir_p directory
-    end
-
-    models_for project do |model, file|
-      model.write file
-    end
-
-    sys.chdir(workdir)
   end
 
   private
@@ -126,15 +108,17 @@ class Prigner::Template
     Dir["#{@path}/[Ss]pecfile"].first
   end
 
+  # Load +specfile+ placed in template path.
   def initialize_specfile
     @spec = Prigner::Spec.load(specfile) if specfile
   end
 
+  # Initialize options.
   def initialize_options
     @options = @spec.options.inject({}) do |options, (name, desc)|
       options[name] = { :enabled => nil, :description => desc }
       options
-    end.to_struct
+    end.to_struct if @spec.options
   end
 
   def initialize_directories
@@ -142,32 +126,11 @@ class Prigner::Template
   end
 
   def initialize_models
-    @models = @spec.files.inject({}) do |models, (model, file)|
-      models["#{@path}/models/#{model}"] = file ? file : model
+    @models = @spec.files.inject({}) do |models, (source, file)|
+      model = Prigner::Model.new(@path.join("models", source))
+      models[model] = file ? file : source
       models
-    end
-  end
-
-  def directories_for(project, &block)
-    @directories.collect do |directory|
-      directory.gsub!(/\((.*?)\)/) do
-        "#{project.send($1)}"
-      end
-    end
-    @directories.map(&block)
-  end
-
-  def models_for(project, &block)
-    @models = @models.inject({}) do |hash, (source, file)|
-      file.gsub!(/\((.*?)\)/) do
-        project.send($1)
-      end
-      bind  = Prigner::Bind.new(project, @options)
-      model = Prigner::Model.new(source, bind)
-      hash[model] = File.join(project.path, file)
-      hash
-    end
-    @models.map(&block)
+    end if @spec.files
   end
 
 end
