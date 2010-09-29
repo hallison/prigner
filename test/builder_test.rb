@@ -14,6 +14,10 @@ class BuilderTest < Test::Unit::TestCase
     @builder  = Prigner::Builder.new(@project, @template)
   end
 
+  def teardown
+    FileUtils.remove_dir @project.path if File.exist? @project.path
+  end
+
   should "create project path" do
     @builder.make_project_path do |path, status|
       assert status, "Project path #{path} not created"
