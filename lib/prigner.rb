@@ -108,6 +108,13 @@ module Prigner
     # List of files that link a model to result file.
     attr_reader :files
 
+    # Default values.
+    DEFAULTS = {
+      "options"     => {},
+      "directories" => [],
+      "files"       => {}
+    }
+
     # Initialize the spec using options in Hash.
     #
     # Example:
@@ -125,9 +132,9 @@ module Prigner
     #                       "chosen.erb" => "rebels/leia_organa.princess"
     #                     }
     def initialize(attributes = {})
-      attributes.each do |attribute, value|
+      DEFAULTS.update(attributes || {}).each do |attribute, value|
         instance_variable_set "@#{attribute}", value if self.respond_to? attribute
-      end if attributes
+      end
     end
 
     # Load a Specfile and initialize a new Spec that be used in Template.
