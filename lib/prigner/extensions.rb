@@ -48,15 +48,6 @@ class Hash
 
 end
 
-class String
-
-  # Convert to Pathname.
-  def to_path
-    Pathname(self)
-  end
-
-end
-
 class Struct
 
   # Public bind.

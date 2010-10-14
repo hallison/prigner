@@ -85,7 +85,7 @@ class Prigner::Model
   # Write contents into file.
   def write(file)
     @file_written = file
-    file = file.to_path
+    file = Pathname.new(file)
     file.dirname.mkpath
     file.open "w+" do |output|
       output << self.build!
