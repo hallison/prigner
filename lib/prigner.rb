@@ -10,6 +10,9 @@
 # The Prigner is a Projec Design Kit which help developers in DRY.
 module Prigner
 
+  # RubyGems
+  require "rubygems" unless $LOADED_FEATURES.include? "rubygems.rb"
+
   # Standard library requirements
   require "pathname"
   require "optparse"
