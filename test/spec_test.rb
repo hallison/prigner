@@ -1,6 +1,6 @@
 require "test/unit"
 require "test/helpers"
-require "prigner"
+require "lib/prigner"
 
 class SpecTest < Test::Unit::TestCase
 

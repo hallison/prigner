@@ -1,7 +1,7 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "lib"))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__)))
 
 require "rake/clean"
-require "prigner"
+require "lib/prigner"
 
 # Helpers
 # =============================================================================
