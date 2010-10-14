@@ -33,6 +33,9 @@ class Prigner::Template
   # Path to template.
   attr_reader :path
 
+  # Specifications
+  attr_reader :spec
+
   # Initialize a template using a path.
   #
   # Example:
@@ -42,13 +45,15 @@ class Prigner::Template
   # The template initialization will search the +specfile+ in path passed as
   # argument (<tt>path/to/template/specfile</tt>) for Spec attributes.
   def initialize(path)
-    @path      = Pathname.new(path)
+    @path      = Pathname.new(path).tap{ |check| check.stat }
     @namespace = @path.parent.basename.to_s
     @name      = @path.basename.to_s
     initialize_specfile
     initialize_options
     initialize_directories
     initialize_models
+  rescue Exception => error
+    raise RuntimeError, error.message
   end
 
   # Load template from shared directories. The shared path set the home user
@@ -58,6 +63,7 @@ class Prigner::Template
       path = "#{source}/#{namespace}/#{template}"
       return new(path) if File.exist? path
     end
+    nil
   end
 
   # Look at user home and template shared path.
@@ -111,8 +117,6 @@ class Prigner::Template
   # Load +specfile+ placed in template path.
   def initialize_specfile
     @spec = Prigner::Spec.load(specfile)
-  rescue Exception => error
-    raise RuntimeError, "No specfile in #{@path}."
   end
 
   # Initialize options.

@@ -77,5 +77,12 @@ class TemplateTest < Test::Unit::TestCase
       Prigner::Template.new("not/exist")
     end
   end
+
+  should "raise runtime error when nil values to namespace and/or template" do
+    assert_raises RuntimeError do
+      Prigner::Template.load(nil, nil)
+    end
+  end
+
 end
 
