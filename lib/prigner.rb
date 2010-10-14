@@ -142,7 +142,7 @@ module Prigner
     def self.load(specfile)
       new(YAML.load_file(specfile))
     rescue Exception => error
-      raise RuntimeError, "Specfile not found."
+      raise RuntimeError, "Unable to load Specfile."
     end
 
   end # Spec
