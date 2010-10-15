@@ -137,6 +137,16 @@ namespace :version do
     puts version.to_hash.to_yaml
   end
 
+  desc "Update version date"
+  desc "Update version date"
+  task :date, [ :date ] do |spec, args|
+    require "parsedate"
+    require "date"
+    yyyy, mm, dd = ParseDate.parsedate(args.date).compact if args.date
+    version.date = (yyyy && mm && dd) ? Date.new(yyyy, mm, dd) : Date.today
+    version.save!
+    puts version.to_hash.to_yaml
+  end
 end
 
 task :version => "version:build"
