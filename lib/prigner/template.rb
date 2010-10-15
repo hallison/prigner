@@ -56,6 +56,11 @@ class Prigner::Template
     raise RuntimeError, error.message
   end
 
+  # Mask for presentation of template.
+  def mask
+    @name == "default" ? @namespace : "#{@namespace}:#{@name}"
+  end
+
   # Load template from shared directories. The shared path set the home user
   # directory and Prigner::Template shared files.
   def self.load(namespace, template = :default)
