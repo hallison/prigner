@@ -32,7 +32,7 @@ Usage
 Prigner create the most common Ruby projects through templates shared. To
 generate new Gem project, run command using the following syntax:
 
-    Prigner gem foo
+    prign new ruby:gem foo
 
     foo
     |-- CHANGELOG
@@ -53,13 +53,13 @@ generate new Gem project, run command using the following syntax:
 This command will generate 'foo' Gem project structure. Or, you maybe create a
 Ruby script or a UNIX-like program.
 
-    prigner bash/script bar
+    prign new bash:script bar
 
     bar
     |-- bar
     `-- barrc
 
-    prigner bash/program ducklet
+    prign new bash:program ducklet
 
     ducklet
     |-- bin
@@ -70,13 +70,21 @@ Ruby script or a UNIX-like program.
 Templates
 =========
 
-Under development. Please wait.
+Prigner offer the following templates:
+
+* Ruby
+  * Default project based only library directory and common files as
+    README.rdoc, CHANGELOG
+  * Gem project that include library directory, main module, test and
+    directories for fixtures.
+  * Sinatra basic application.
 
 Copyright
 =========
 
-Written by [Hallison Batista](http://hallisonbatista.com/about).
+Written by [Hallison Batista](http://hallisonbatista.com/whoiam).
 
-Prigner is Copyright (C) 2010, [Codigorama](http://codigorama.com/produtos).
+Prigner is Copyright (C) 2010, [Codigorama](http://codigorama.com/products).
+
 See COPYRIGHT file for more information about license.
 
