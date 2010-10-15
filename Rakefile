@@ -87,7 +87,6 @@ namespace :doc do
       historic[date][:changes] << content.gsub(/(.*?)\n/m){"\n  #{$1}\n"} unless content.empty?
     end
 
-
     historic.keys.sort.reverse.each do |date|
       entry = historic[date]
       puts "Adding historic from date #{date} ..."
@@ -140,12 +139,11 @@ namespace :version do
     puts version.to_hash.to_yaml
   end
 
-  desc "Update version date"
-  desc "Update version date"
-  task :date, [ :date ] do |spec, args|
+  desc "Update version date (current #{version.date})"
+  task :date, [:date] do |spec, args|
     require "parsedate"
     require "date"
-    yyyy, mm, dd = ParseDate.parsedate(args.date).compact if args.date
+    yyyy, mm, dd = ParseDate.parsedate(args[:date]).compact if args[:date]
     version.date = (yyyy && mm && dd) ? Date.new(yyyy, mm, dd) : Date.today
     version.save!
     puts version.to_hash.to_yaml
@@ -161,9 +159,15 @@ namespace :gem do
 
   file gemspec.file => FileList["{lib,test}/**", "Rakefile"] do
     spec = gemspec.file.read
-    spec.sub! /spec\.version\s*=\s*".*?"/,  "spec.version = #{version.tag.inspect}"
-    spec.sub! /spec\.date\s*=\s*".*?"/,     "spec.date = #{version.date.to_s.inspect}"
-    spec.sub! /spec\.files\s*=\s*\[.*?\]/m, "spec.files = [\n#{manifest}\n  ]"
+
+    puts "Updating version ..."
+      spec.sub! /spec\.version\s*=\s*".*?"/,  "spec.version = #{version.tag.inspect}"
+
+    puts "Updating date of version ..."
+      spec.sub! /spec\.date\s*=\s*".*?"/,     "spec.date = #{version.date.to_s.inspect}"
+
+    puts "Updating file list ..."
+      spec.sub! /spec\.files\s*=\s*\[.*?\]/m, "spec.files = [\n#{manifest}\n  ]"
 
     gemspec.file.open("w+") { |file| file << spec }
 
@@ -175,7 +179,7 @@ namespace :gem do
     sh "gem build #{gemspec.file}"
   end
 
-  desc "Deploy gem package to GemCutter.org"
+  desc "Deploy gem package to RubyGems.org"
   task :deploy => :build do
     sh "gem push #{gemspec.spec.file_name}"
   end

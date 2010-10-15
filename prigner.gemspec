@@ -6,15 +6,15 @@ Gem::Specification.new do |spec|
   spec.summary = "Project designer."
   spec.description = "Prigner is a Project Design Kit."
   spec.authors = ["Hallison Batista"]
-  spec.email = "hallison.batista@gmail.com"
-  spec.homepage = "http://codigorama.com/produtos/prigner"
+  spec.email = "hallison@codigorama.com"
+  spec.homepage = "http://codigorama.com/products/prigner"
   spec.executables = [ "prign" ]
   spec.default_executable = "prign"
   #
 
   #version
   spec.version = "0.1.0"
-  spec.date = "2009-07-16"
+  spec.date = "2010-10-15"
   #
 
   #dependencies
@@ -91,7 +91,15 @@ Gem::Specification.new do |spec|
 
     Thanks for use Prigner.
 
-    Please, feedback in http://codigorama.com/prigner/issues.
+    Try run:
+
+    $ prign list
+
+    See all shared templates. If you want customize a template, just run:
+
+    $ prign copy <namespace>[:template]
+
+    Please, feedback in http://github.com/codigorama/prigner/issues.
     #{'-'*78}
   end_message
   #
