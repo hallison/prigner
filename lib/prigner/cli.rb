@@ -16,6 +16,13 @@ module Prigner::CLI
     "#{Prigner::ROOT}/lib/prigner/cli"
   end
 
+  # List all templates as commands.
+  def self.templates
+    Prigner::Template.all.map do |namespace, templates|
+      templates.map{ |template| template.mask }
+    end.flatten
+  end
+
   # List of commands placed in <tt>lib/prigner/cli/</tt>.
   def self.commands
     Dir["#{path}/*.rb"].map do |source|
@@ -29,8 +36,23 @@ module Prigner::CLI
   end
 
   # Look command in *CLI* directory and execute (by exec).
-  def self.run(command)
-    exec ruby, source(command), *ARGV if commands.include? command
+  def self.run(*args)
+    command = args.shift if commands.include? args.first
+    raise RuntimeError, "unknown command '#{args.first}'" unless command
+    rubyopt = "-I#{Prigner::ROOT}/lib"
+    exec ruby, rubyopt, source(command), *args
+  end
+
+  module Utils
+    def status(title, &block)
+      printf "* %-74s ...\n", title
+      message, status = yield block
+      status = status ? :done : :fail
+    rescue Exception => error
+      message, status = "#{error.class}: #{error.message}", :err
+    ensure
+      printf "  %-70s [%4s]\n", message, status
+    end
   end
 
 end
