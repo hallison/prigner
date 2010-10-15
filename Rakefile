@@ -87,16 +87,19 @@ namespace :doc do
       historic[date][:changes] << content.gsub(/(.*?)\n/m){"\n  #{$1}\n"} unless content.empty?
     end
 
-    historic.each do |date, entry|
-      text  = <<-end_text.gsub(/^[ ]{8}/,'')
+
+    historic.keys.sort.reverse.each do |date|
+      entry = historic[date]
+      puts "Adding historic from date #{date} ..."
+      text  << <<-end_text.gsub(/^[ ]{8}/,'')
         #{entry[:release]}
         #{"-" * entry[:release].size}
         #{entry[:changes]}
-        #{File.open("CHANGELOG").read}
       end_text
     end
 
     File.open("CHANGELOG", "w+") { |changelog| changelog << text }
+    puts "Historic has #{historic.keys.size} entry dates"
     puts "Successfully updated CHANGELOG file"
   end
 
