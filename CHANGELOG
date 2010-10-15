@@ -1,15 +1,223 @@
-2009-07-16
+2010-10-15 
 -----------
 
-* Pre-Alpha. Project has been started.
+* Changes in the path to shared templates
 
-* Include basic directory tree.
+* Updates in the informations
 
-* Basic files have been added:
+* Improvements in template and new CLI commands
 
-  * Templates.
+  * Show all templates for use in the CLI commands.
 
-  * Development tasks.
+  * RuntimeError when the CLI is unable to run a command.
 
-  * Tests;
+  * Adding list and new commands.
+
+* Main executable
+
+* Mask for template presentation
+
+2010-10-14 
+-----------
+
+* Fixtures in handle exceptions in path and specfile
+
+* Adjustments in exceptions for Specfile
+
+* RubyGems
+
+* Adjustments in the library path
+
+2010-10-13 
+-----------
+
+* Removing conversion from string to pathname
+
+2010-09-29 
+-----------
+
+* Fixes in the LOAD_PATH variable for requirements
+
+* Configuration for RVM
+
+* Unneeded files removed after builder test
+
+* Errors fixed in load of the specfile
+
+* Added the executable file in Gemspec
+
+* Fixes in load the specfile without values
+
+2010-09-28 
+-----------
+
+* Updates in Gemspec file
+
+* Added new files
+
+  * Project class and CLI module have been separated from main file.
+
+  * A builder has been created for improve feedback in the CLI.
+
+  * Documentation.
+
+* Several improves
+
+  * Add `specfile` in fixtures.
+
+  * Template methods have been improved:
+
+    * List all templates.
+
+    * Several query methods have been removed.
+
+    * Added method for list all template paths.
+
+    * All methods that build a project were removed for create a new
+
+      build class.
+
+  * Small fixes in empty values (nil).
+
+  * Documentation.
+
+2010-09-27 
+-----------
+
+* Fixes in path to model file
+
+* Fixes in the load of modules
+
+* Sorting command list
+
+* Command for list all templates
+
+* Shared path to user templates
+
+* Remove test index
+
+2010-09-26 
+-----------
+
+* Added command-line interface
+
+* Task to build Gem
+
+2010-09-25 
+-----------
+
+* Listing all templates by namespace
+
+* Template builds all model files
+
+* Change SHARED_PATH to query method shared_path
+
+2010-09-23 
+-----------
+
+* Added counter for all test names
+
+* Template draw projects
+
+  * Updates in fixtures.
+
+  * Added binding class for filters in ERB model files.
+
+* Documentation and changes in method names
+
+* Fix in mapping of the models in the specfile
+
+* Small improvements in tests
+
+2010-09-22 
+-----------
+
+* Small fixes in source code and tests
+
+* Fixes in converting Hash into Struct
+
+* Fixes in tasks for tests
+
+2010-09-17 
+-----------
+
+* Project has been remodelled
+
+  * Project renamed to Prigner.
+
+  * Start builder DSL.
+
+  * Spec class.
+
+  * Project class was simplified.
+
+2010-08-17 
+-----------
+
+* Test for check the content written by model
+
+* Template and models
+
+  * A template has many model files.
+
+  * The tests and fixtures for template and models have been added.
+
+  * Small improvements in code.
+
+* Fixture for test model
+
+* Revision in model for build contents
+
+  * The method _binding_ inside structs have been updated for public
+
+    access.
+
+  * Model only builds the content and draws a destination file.
+
+2010-08-16 
+-----------
+
+* Fix error in parse an empty Hash to Struct
+
+* Deleting temporary files
+
+* Refactoring in template
+
+  * Load options from configuration file.
+
+  * The template is a simple directory tree.
+
+* Basic model finished
+
+  * Tests and fixtures for model.
+
+2010-08-15 
+-----------
+
+* Small improvements in code
+
+2010-08-14 
+-----------
+
+* Basic template finished
+
+  * Tests and fixtures for templates.
+
+  * Fix in changelog task.
+
+* Basic project finished
+
+  * Class for Ruby project is based in a simple directory path.
+
+  * Gemspec file.
+
+  * Several useful extensions.
+
+  * Tests.
+
+  * Tasks for development and publishing.
+
+* Added basic files
+
+* First commit
 
