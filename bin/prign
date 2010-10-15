@@ -2,58 +2,64 @@
 # Copyright (C) 2010 Hallison Batista
 # encoding: UTF-8
 
-require File.expand_path(File.join(__FILE__, *%w(.. .. lib prigner)))
+require "prigner"
 
 program = File.basename(__FILE__)
-command = ARGV.shift if Prigner::CLI.commands.include? ARGV.first
 
-ARGV.options do |arguments|
+begin
+  Prigner::CLI.run *ARGV unless ARGV.empty? or ARGV.first =~ /^-.*$/
 
-  arguments.summary_indent = "  "
-  arguments.summary_width  = 24
-  arguments.banner = <<-end_banner.gsub(/^[ ]{4}/, '')
-    #{Prigner::Version}
+  ARGV.options do |arguments|
 
-    Usage:
-      #{program} <command> [options]
-      #{program} [options]
+    arguments.summary_indent = "  "
+    arguments.summary_width  = 24
+    arguments.banner = <<-end_banner.gsub(/^[ ]{6}/, '')
+      #{Prigner::Version}
 
-    Commands:
-      #{Prigner::CLI.commands.join(", ")}
+      Usage:
+        #{program} <namespace>[:template] [path] [options]
+        #{program} <command> [command_options]
+        #{program} [options]
 
-      Run command with option "-h" or "--help" for more information.
+      Commands:
+        #{Prigner::CLI.commands.join(", ")}
 
-  end_banner
+        Run command with option "-h" or "--help" for more information.
 
-  arguments.separator "Global options:"
+    end_banner
 
-  arguments.on("-c", "--commands", nil, "Show only command names.") do
-    puts Prigner::CLI.commands.join("\n")
-  end
-  arguments.on("-h", "--help", nil, "Show this message.") do
-    puts arguments
-  end
-  arguments.on(nil,  "--version", nil, "Show version information.") do
-    puts Prigner::Version
-  end
+    arguments.separator "Options:"
 
-  arguments.separator ""
+    arguments.on("-c", "--commands", nil, "Show only command names.") do
+      puts Prigner::CLI.commands.join("\n")
+    end
 
-  begin
-    if command
-      Prigner::CLI.run(command)
-    elsif ARGV.empty?
+    arguments.on("-t", "--templates", nil, "Show only template names.") do
+      puts Prigner::CLI.templates.sort.join("\n")
+    end
+
+    arguments.on("-h", "--help", nil, "Show this message.") do
+      puts arguments
+    end
+
+    arguments.on("-v",  "--version", nil, "Show version information.") do
+      puts Prigner::Version
+    end
+
+    arguments.separator ""
+
+    unless ARGV.empty?
+      arguments.parse!
+    else
       puts arguments
       exit 0
-    else
-      arguments.parse!
     end
-  rescue => error
-    puts error.message
-    puts error.backtrace
-    exit 1
   end
 
+rescue => error
+  puts "#{program}: #{error.message} (#{error.class})"
+  puts "Try '#{program} -h' or '#{program} --help' for more information."
+  exit 1
 end
 
 # vim: filetype=ruby
