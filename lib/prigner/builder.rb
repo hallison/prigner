@@ -1,3 +1,6 @@
+# == The project builder
+#
+# The Builder class is a main handler of the projects and templates.
 class Prigner::Builder
 
   require "fileutils"
@@ -8,33 +11,41 @@ class Prigner::Builder
 
   attr_reader :template
 
+  # Build a new project based on a template.
   def initialize(project, template)
     @project, @template = project, template
   end
 
-  def make_project_path
+  def make_project_path #:yields: path, info
     mkdir_p(@project.path)
-    yield [ @project.path, File.exist?(@project.path) ]
+    { no_pwd(@project.path) => File.stat(@project.path) }
   end
 
-  def make_project_directories
-    @template.directories.collect do |basedir|
+  def make_project_directories #:yields: path, info
+    @template.directories.inject({}) do |hash, basedir|
       directory = basedir.gsub(/\((.*?)\)/){ @project.send($1) }
       path      = File.join(@project.path, directory)
       mkdir_p(path)
-      yield [ path, File.exist?(path) ]
+      hash[no_pwd(path)] = File.stat(path)
+      hash
     end
   end
 
-  def make_project_files
-    @template.models.map do |model, basename|
+  def make_project_files #:yields: path, info
+    @template.models.inject({}) do |hash, (model, basename)|
       file = basename.gsub(/\((.*?)\)/){ project.send($1) }
       path = File.join(@project.path, file)
       model.binder = Prigner::Binder.new(@project, @template.options)
       model.write(path)
-      yield [ model.file_written, File.exist?(model.file_written) ]
+      hash[no_pwd(model.file_written)] = File.stat(model.file_written)
+      hash
     end
   end
 
+private
+
+  def no_pwd(path)
+    path.gsub("#{Dir.pwd}/", "")
+  end
 end
 

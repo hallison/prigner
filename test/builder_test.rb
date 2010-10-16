@@ -15,19 +15,20 @@ class BuilderTest < Test::Unit::TestCase
   end
 
   should "create project path" do
-    @builder.make_project_path do |path, status|
-      assert status, "Project path #{path} not created"
-    end
+    path, status = @builder.make_project_path
+    assert status, "Project path #{path} not created"
   end
 
   should "create project directories" do
-    @builder.make_project_directories do |directory, status|
+    directories = @builder.make_project_directories
+    directories.each do |directory, status|
       assert status, "Directory #{directory} not created"
     end
   end
 
   should "create project files" do
-    @builder.make_project_files do |file, status|
+    files = @builder.make_project_files
+    files.each do |file, status|
       assert status, "File #{file} not created"
     end
   end
