@@ -16,34 +16,27 @@ begin
       Usage:
         #{program} #{command} <namespace>[:template] <path> [options]
 
+      Templates:
+        #{Prigner::CLI.templates.sort.join("\n" + arguments.summary_indent)}
+
     end_banner
 
-    # if template and path
-    #   template.draw path
-    #   puts "* Directories"
-    #   template.directories.map do |directory|
-    #     printf "  > %s\n", directory.gsub("#{Dir.pwd}/", "")
-    #   end
-    #   puts "* Files"
-    #   template.models.map do |model, file|
-    #     printf "  > %s\n", file.gsub("#{Dir.pwd}/", "")
-    #   end
-    #   printf ":: Project '%s' was created successfully using %s:%s template.\n", path, template.namespace, template.name
-      unless ARGV.empty?
-        name  = ARGV.shift
-        path  = ARGV.shift unless name.nil?
+    unless ARGV.empty?
+      name  = ARGV.shift
+      path  = ARGV.shift unless name.nil?
 
-        template = Prigner::Template.load(*name.split(":"))
+      template = Prigner::Template.load(*name.split(":"))
 
-        if template
-          arguments.banner = <<-end_banner.gsub /^[ ]{12}/, ''
-            #{Prigner::Version}
+      if template
+        arguments.banner = <<-end_banner.gsub /^[ ]{10}/, ''
+          #{Prigner::Version}
 
-            Usage:
-              #{program} #{command} #{template.mask} <path> [options]
+          Usage:
+            #{program} #{command} #{template.mask} <path> [options]
 
-          end_banner
+        end_banner
 
+        if template.options
           arguments.separator "Options:"
 
           template.options.members.map do |name|
@@ -52,34 +45,46 @@ begin
               option.enabled = true
             end
           end
-        else
-          raise RuntimeError, "unable to load template '#{name}'"
         end
+
+      else
+        raise RuntimeError, "unable to load template '#{name}'"
       end
+    end
 
-      unless path
-        puts arguments
-        exit 0
-      end
+    unless path
+      puts arguments
+      exit 0
+    end
 
-      arguments.parse!
+    arguments.parse!
 
-      project = Prigner::Project.new(path)
-      builder = Prigner::Builder.new(project, template)
+    project = Prigner::Project.new(path)
+    builder = Prigner::Builder.new(project, template)
 
-      puts "* Creating project #{project.name} (#{project.path.gsub(Dir.pwd, ".")})"
+    status = Prigner::CLI::Status.new
 
-      builder.make_project_path do |dirname, status|
-        puts "* Creating path #{dirname} ... #{status ? :ok : :fail}"
-      end
+    status.setup do
+      state :success, :created
+      state :failure, :fail
+      state :error,   :error
+      format :title, "\n* %-74s"
+      format :info,  "  %-69s [%7s]"
+    end
 
-      builder.make_project_directories do |dirname, status|
-        puts "* Creating directory #{dirname} ... #{status ? :ok : :fail}"
-      end
+    puts Prigner::Version
 
-      builder.make_project_files do |filename, status|
-        puts "* Writing file #{filename} ... #{status ? :ok : :fail}"
-      end
+    status.start "Creating project path" do
+      builder.make_project_path
+    end
+
+    status.start "Creating directories" do
+      builder.make_project_directories
+    end
+
+    status.start "Writing files" do
+      builder.make_project_files
+    end
 
   end
 

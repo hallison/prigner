@@ -80,7 +80,7 @@ Gem::Specification.new do |spec|
     "--line-numbers",
     "--charset", "utf8",
     "--main", "Prigner",
-    "--title", "Prigner API Documentation"
+    "--title", "Prigner v#{spec.version} API Documentation"
   ]
 
   #rubygems
