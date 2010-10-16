@@ -43,16 +43,58 @@ module Prigner::CLI
     exec ruby, rubyopt, source(command), *args
   end
 
-  module Utils
-    def status(title, &block)
-      printf "* %-74s ...\n", title
-      message, status = yield block
-      status = status ? :done : :fail
-    rescue Exception => error
-      message, status = "#{error.class}: #{error.message}", :err
-    ensure
-      printf "  %-70s [%4s]\n", message, status
+  class Status
+
+    attr_reader :formats
+
+    attr_reader :count
+
+    attr_reader :states
+
+    attr_reader :current
+
+    def initialize
+      @states = {
+        :success => :done,
+        :failure => :fail,
+        :error   => :err
+      }
+      @formats = {
+        :title => "\n* %-74s",
+        :info  => "\n  %-70s [%4s]"
+      }
+      @count = {}
+      @states.keys.each{|k| @count[k] = 0 }
     end
+
+    def setup(&block)
+      instance_eval(&block)
+    end
+
+    def state(key, value)
+      return unless @states.has_key?key
+      @states[key] = value
+      @count[key] = 0
+    end
+
+    def format(key, format)
+      @formats[key] = "#{format}\n" if @formats.has_key?key
+    end
+
+    def increment!
+      @count[@current] += 1
+    end
+
+    def start(title, &block)
+      printf @formats[:title], title
+      hash = yield block
+      hash.each do |message, status|
+        @current = status ? :success : :failure
+        printf @formats[:info], message, @states[@current]
+        increment!
+      end
+    end
+
   end
 
 end
