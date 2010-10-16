@@ -1,0 +1,67 @@
+Gem::Specification.new do |spec|
+  spec.platform = Gem::Platform::RUBY
+
+  #about
+  spec.name = "<%=project.name%>"
+  spec.summary = "Say anything about <%=project.name%>"
+  spec.description = "Describes <%=project.name%>"
+  spec.author = "<%=project.author%>"
+  spec.email = ""
+  spec.homepage = "http://rubygems.org/gems/<%=project.name%>"
+  #spec.executables = [ "" ]
+  #spec.default_executable = ""
+  #
+
+  #version
+  spec.version = "0.0.1"
+  spec.date = "<%=date%>"
+  #
+
+  #dependencies
+  #spec.add_dependency ""
+  #
+
+  #manifest
+  spec.files = [
+    "CHANGELOG",
+    "COPYING",
+    "README.mkd",
+    "Rakefile",
+    "lib/<%=project.name%>.rb",
+    "<%=project.name%>.gemspec",
+    "test/<%=project.name%>_test.rb",
+  ]
+  #
+
+  spec.test_files = spec.files.select{ |path| path =~ /^test\/*test*/ }
+
+  spec.require_paths = ["lib"]
+
+  #documentation
+  spec.has_rdoc = true
+  spec.extra_rdoc_files = [
+    "README.mkd",
+    "COPYING",
+    "CHANGELOG"
+  ]
+  spec.rdoc_options = [
+    "--inline-source",
+    "--line-numbers",
+    "--charset", "utf8",
+    "--main", "<%=project.class_name%>",
+    "--title", "<%=project.class_name%> v#{spec.version} API Documentation"
+  ]
+
+  #rubygems
+  spec.rubyforge_project = spec.name
+  spec.post_install_message = <<-end_message.gsub(/^[ ]{4}/,'')
+    #{'-'*78}
+    <%=project.class_name%> v#{spec.version}
+
+    Thanks for use <%=project.class_name%>.
+
+    #{'-'*78}
+  end_message
+  #
+end
+

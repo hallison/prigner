@@ -1,0 +1,4 @@
+= <%=project.class_name%>
+
+This is my great Ruby project.
+

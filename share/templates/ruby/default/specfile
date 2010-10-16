@@ -1,0 +1,16 @@
+author      : Hallison Batista
+email       : hallison@codigorama.com
+version     : 0.1.0
+description : Default template for Ruby projects
+
+options:
+
+directories:
+  - lib/(project)
+
+files:
+  CHANGELOG:
+  COPYING:
+  README.rdoc:
+  module.rb : lib/(project).rb
+

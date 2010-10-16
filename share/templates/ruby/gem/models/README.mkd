@@ -1,0 +1,5 @@
+<%=project.class_name%>
+<%="="*project.class_name.size%>
+
+This is my great Ruby project.
+
