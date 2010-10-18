@@ -1,8 +1,8 @@
 #@ --- 
 #@ :timestamp: 2009-07-16 14:05:16 -04:00
-#@ :date: 2010-10-16
+#@ :date: 2010-10-18
 #@ :tag: 0.1.0
-#@ :milestone: Pre-Alpha
+#@ :milestone: Alpha
 # encoding: UTF-8
 
 # Copyright (c) 2009, 2010, Hallison Batista

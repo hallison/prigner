@@ -1,5 +1,6 @@
 *.gem
 *.sw[p-z]
+*.tag
 *.tmp
 test.*
 todo.*

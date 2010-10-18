@@ -1,5 +1,30 @@
+2010-10-16 
+-----------
+
+* Adding of templates for Ruby projects
+
+* Command for create a new project
+
+* Status for CLI commands and fixes in builder test
+
+* Improvements in builder
+
+  * All methods returns the path and the state information.
+
+  * Removing of PWD from paths.
+
 2010-10-15 
 -----------
+
+* Small improvements in tasks and gemspec updates
+
+* Updates in changelog file
+
+* Fixes in the task to update changelog file
+
+* Updates in date of version
+
+* Adding of task to handle date of version
 
 * Changes in the path to shared templates
 

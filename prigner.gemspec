@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
 
   #version
   spec.version = "0.1.0"
-  spec.date = "2010-10-15"
+  spec.date = "2010-10-18"
   #
 
   #dependencies
@@ -39,6 +39,19 @@ Gem::Specification.new do |spec|
     "lib/prigner/project.rb",
     "lib/prigner/template.rb",
     "prigner.gemspec",
+    "share/templates/ruby/default/models/CHANGELOG",
+    "share/templates/ruby/default/models/COPYING",
+    "share/templates/ruby/default/models/README.rdoc",
+    "share/templates/ruby/default/models/module.rb",
+    "share/templates/ruby/default/specfile",
+    "share/templates/ruby/gem/models/CHANGELOG",
+    "share/templates/ruby/gem/models/COPYING",
+    "share/templates/ruby/gem/models/README.mkd",
+    "share/templates/ruby/gem/models/Rakefile",
+    "share/templates/ruby/gem/models/empty_test.rb",
+    "share/templates/ruby/gem/models/gemspec",
+    "share/templates/ruby/gem/models/module.rb",
+    "share/templates/ruby/gem/specfile",
     "test/builder_test.rb",
     "test/fixtures/model.rb.erb",
     "test/fixtures/templates/shared/ruby/default/README.mkd",
