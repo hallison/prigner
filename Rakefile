@@ -1,5 +1,3 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__)))
-
 require "rake/clean"
 require "lib/prigner"
 
@@ -150,58 +148,52 @@ namespace :version do
   end
 end
 
-task :version => "version:build"
-
 # RubyGems
 # =============================================================================
 
-namespace :gem do
+file gemspec.file => FileList["{lib,test}/**", "Rakefile"] do
+  spec = gemspec.file.read
 
-  file gemspec.file => FileList["{lib,test}/**", "Rakefile"] do
-    spec = gemspec.file.read
+  puts "Updating version ..."
+    spec.sub! /spec\.version\s*=\s*".*?"/,  "spec.version = #{version.tag.inspect}"
 
-    puts "Updating version ..."
-      spec.sub! /spec\.version\s*=\s*".*?"/,  "spec.version = #{version.tag.inspect}"
+  puts "Updating date of version ..."
+    spec.sub! /spec\.date\s*=\s*".*?"/,     "spec.date = #{version.date.to_s.inspect}"
 
-    puts "Updating date of version ..."
-      spec.sub! /spec\.date\s*=\s*".*?"/,     "spec.date = #{version.date.to_s.inspect}"
+  puts "Updating file list ..."
+    spec.sub! /spec\.files\s*=\s*\[.*?\]/m, "spec.files = [\n#{manifest}\n  ]"
 
-    puts "Updating file list ..."
-      spec.sub! /spec\.files\s*=\s*\[.*?\]/m, "spec.files = [\n#{manifest}\n  ]"
+  gemspec.file.open("w+") { |file| file << spec }
 
-    gemspec.file.open("w+") { |file| file << spec }
-
-    puts "Successfully update #{gemspec.file} file"
-  end
-
-  desc "Build gem package #{gemspec.spec.file_name}"
-  task :build => gemspec.file do
-    sh "gem build #{gemspec.file}"
-  end
-
-  desc "Deploy gem package to RubyGems.org"
-  task :deploy => :build do
-    sh "gem push #{gemspec.spec.file_name}"
-  end
-
-  desc "Install gem package #{gemspec.spec.file_name}"
-  task :install => :build do
-    sh "gem install #{gemspec.spec.file_name} --local"
-  end
-
-  desc "Uninstall gem package #{gemspec.spec.file_name}"
-  task :uninstall do
-    sh "gem uninstall #{gemspec.spec.name} --version #{gemspec.spec.version}"
-  end
-
+  puts "Successfully update #{gemspec.file} file"
 end
 
-task :gem => "gem:build"
+desc "Build gem package #{gemspec.spec.file_name}."
+task :build => gemspec.file do
+  sh "gem build #{gemspec.file}"
+end
+
+desc "Deploy gem package to RubyGems.org."
+task :deploy => :build do
+  sh "gem push #{gemspec.spec.file_name}"
+end
+
+desc "Install gem package #{gemspec.spec.file_name}."
+task :install => :build do
+  sh "gem install #{gemspec.spec.file_name} --local"
+end
+
+desc "Uninstall gem package #{gemspec.spec.file_name}."
+task :uninstall do
+  sh "gem uninstall #{gemspec.spec.name} --version #{gemspec.spec.version}"
+end
+
+task :gem => :build
 
 # Test
 # =============================================================================
 
-desc "Run tests"
+desc "Run tests."
 task :test, [:pattern] do |spec, args|
   test(args[:pattern] ? "test/#{args[:pattern]}_test.rb" : "test/*_test.rb")
 end
@@ -209,5 +201,5 @@ end
 # Default
 # =============================================================================
 
-task :default => "test"
+task :default => :test
 
