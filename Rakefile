@@ -44,8 +44,15 @@ def tag
   git(:tag).split("\n").last
 end
 
+def release_notes
+  @release_notes ||= Pathname.new("v#{spec.version}.rdoc")
+end
+
 def log
-  @log ||= `git log --date=short --format='%d;%cd;%s;%b;'`
+  yaml = git :log,
+             "--date=short",
+             "--format='- head: %d%n  date: %cd%n  summary: %s%n  notes: \"%n%b\"%n'"
+  YAML.load(yaml)
 end
 
 def specfile
@@ -57,7 +64,7 @@ def spec
 end
 
 def package_path
-  specfile.dirname.join("pkg").join("#{spec.name}-#{spec.version}")
+  specfile.dirname.join("pkg").join("#{File.basename(spec.file_name, '.*')}")
 end
 
 def package(ext = "")
@@ -67,57 +74,51 @@ end
 # Documentation
 # =============================================================================
 
-namespace :doc do
+CLOBBER << FileList["doc/*"]
 
-  CLOBBER << FileList["doc/*"]
-
-  file "doc/api/index.html" => FileList["lib/**/*.rb", "README.mkd", "CHANGELOG"] do |filespec|
-    rm_rf "doc"
-    rdoc "--op", "doc/api",
-         "--charset", "utf8",
-         "--main", "'Prigner'",
-         "--title", "'Prigner v#{version.tag} API Documentation'",
-         "--inline-source",
-         "--promiscuous",
-         "--line-numbers",
-         filespec.prerequisites.join(" ")
-  end
-
-  desc "Build API documentation (doc/api)"
-  task :api => "doc/api/index.html"
-
-  desc "Creates/updates CHANGELOG file."
-  task :changelog do |spec|
-    historic = {}
-    text     = ""
-
-    log.scan(/(.*?);(.*?);(.*?);(.*?);/m) do |tag, date, subject, content|
-      
-      historic[date] = {
-        :release => "#{date} #{tag.match(/(v\d\..*)/im) ? tag : nil}",
-        :changes => []
-      } unless historic.has_key? date
-
-      historic[date][:changes] << "\n* #{subject}\n"
-      historic[date][:changes] << content.gsub(/(.*?)\n/m){"\n  #{$1}\n"} unless content.empty?
-    end
-
-    historic.keys.sort.reverse.each do |date|
-      entry = historic[date]
-      puts "Adding historic from date #{date} ..."
-      text  << <<-end_text.gsub(/^[ ]{8}/,'')
-        #{entry[:release]}
-        #{"-" * entry[:release].size}
-        #{entry[:changes]}
-      end_text
-    end
-
-    File.open("CHANGELOG", "w+") { |changelog| changelog << text }
-    puts "Historic has #{historic.keys.size} entry dates"
-    puts "Successfully updated CHANGELOG file"
-  end
-
+file "doc/api/index.html" => FileList["lib/**/*.rb", "README.mkd", "CHANGELOG"] do |filespec|
+  rm_rf "doc"
+  rdoc "--op", "doc/api",
+       "--charset", "utf8",
+       "--main", "'Prigner'",
+       "--title", "'Prigner v#{version.tag} API Documentation'",
+       "--inline-source",
+       "--promiscuous",
+       "--line-numbers",
+       filespec.prerequisites.join(" ")
 end
+
+desc "Build API documentation (doc/api)."
+task :doc => "doc/api/index.html"
+
+desc "Build CHANGELOG file."
+task :changelog do
+  open("CHANGELOG", "w+") do |changelog|
+    title = lambda do |charlevel, text|
+      text << "\n" << charlevel
+    end
+
+    changelog << "= #{Prigner::Version} - Changelog"
+
+    historic = log.group_by { |entry| entry["date"] }
+
+    historic.keys.sort.reverse.map do |date|
+      changelog << "\n\n" << "== #{date}" << "\n"
+
+      for entry in historic[date]
+        notes = entry["notes"]
+        changelog << "\n* #{entry["summary"]}."
+        unless notes.empty?
+          changelog << notes.strip.gsub(/([\*-].*?)/){ "\n  #{$1}" }
+        end
+      end
+    end
+
+    puts "Successfully updated the CHANGELOG file with #{historic.keys.size} dates."
+  end
+end
+
+file "CHANGELOG" => :changelog
 
 # Versioning
 # =============================================================================
@@ -157,6 +158,10 @@ end
 
 CLOBBER << FileList["#{package_path.dirname}/*"]
 
+task :tagged do
+  abort "The version #{version.tag} is not tagged, yet." unless tag[1..-1] == version.tag
+end
+
 file specfile => FileList["{bin,lib,test}/**", "Rakefile"] do
   spec = specfile.read
 
@@ -176,29 +181,35 @@ end
 
 directory package_path.to_s
 
-file package(".gem") => [ package_path.dirname, specfile ] do |file|
+file package(".gem") => [ specfile, package_path.dirname ] do |file|
   sh "gem build #{specfile}"
-  mv spec.file_name, file.prerequisites.first
+  mv spec.file_name, file.prerequisites.last
 end
 
-file package(".tar.gz") => [ package_path, specfile ] do |file|
+file package(".tar.gz") => [ specfile, package_path ] do |file|
   spec.files.each do |source|
     package_path.join(source).dirname.mkpath
     cp source, package_path.join(source)
   end
-  cd package_path.dirname
-  sh "tar czvf #{package(".tar.gz").basename} #{package_path.basename}/*"
+  cd package_path.dirname do
+    sh "tar czvf #{package(".tar.gz").basename} #{package_path.basename}/*"
+  end
 end
 
 desc "Build packages."
 task :package => [package(".gem"), package(".tar.gz")]
 
 desc "Release gem package to repositories."
-task :release => :package do
-  news = File.read("v#{spec.version}.tag")
+task :release => [ :tagged, :package ] do
   sh "gem push #{package('.gem')}"
-  sh "rubyforge add_release #{spec.name} #{spec.version} #{package('.gem')}"
-  sh "rubyforge add_news 'Prigner v#{spec.version} released' '#{news}'"
+  { :release => ".gem", :file => ".tar.gz" }.each do |file, ext|
+    sh "rubyforge add_#{file}",
+       "#{spec.rubyforge_project}",
+       "#{spec.name} #{spec.version} #{package(ext)}"
+  end
+  if release_notes.exist?
+    sh "rubyforge add_news 'Prigner v#{spec.version} released' '#{release_notes.read}'"
+  end
 end
 
 desc "Install gem package #{spec.file_name}."
@@ -211,7 +222,7 @@ task :uninstall do
   sh "gem uninstall #{spec.name} --version #{spec.version}"
 end
 
-task :gem => :build
+task :gem => package(".gem")
 
 # Test
 # =============================================================================

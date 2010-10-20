@@ -1,248 +1,161 @@
-2010-10-16 
------------
+= Prigner v0.2.0 (2010-10-24) - Changelog
 
-* Adding of templates for Ruby projects
+== 2010-10-19
 
-* Command for create a new project
+* Improvements in the tasks and documentation.
+  * The task for build the changelog file has been improved. 
+  * Adding of the validation for check if the version has been tagged to releasing.
+* Improvements in the tasks.
+  * Improvements in the versioning and packaging tasks. 
+  * Adding of the packaging configurations.
 
-* Status for CLI commands and fixes in builder test
+== 2010-10-18
 
-* Improvements in builder
+* Cleanup the code of the tasks.
+* Releasing of version 0.1.0.
 
-  * All methods returns the path and the state information.
+== 2010-10-16
 
+* Adding of templates for Ruby projects.
+* Command for create a new project.
+* Status for CLI commands and fixes in builder test.
+* Improvements in builder.
+  * All methods returns the path and the state information. 
   * Removing of PWD from paths.
 
-2010-10-15 
------------
+== 2010-10-15
 
-* Small improvements in tasks and gemspec updates
-
-* Updates in changelog file
-
-* Fixes in the task to update changelog file
-
-* Updates in date of version
-
-* Adding of task to handle date of version
-
-* Changes in the path to shared templates
-
-* Updates in the informations
-
-* Improvements in template and new CLI commands
-
-  * Show all templates for use in the CLI commands.
-
-  * RuntimeError when the CLI is unable to run a command.
-
+* Small improvements in tasks and gemspec updates.
+* Updates in changelog file.
+* Fixes in the task to update changelog file.
+* Updates in date of version.
+* Adding of task to handle date of version.
+* Changes in the path to shared templates.
+* Updates in the informations.
+* Improvements in template and new CLI commands.
+  * Show all templates for use in the CLI commands. 
+  * RuntimeError when the CLI is unable to run a command. 
   * Adding list and new commands.
+* Main executable.
+* Mask for template presentation.
 
-* Main executable
+== 2010-10-14
 
-* Mask for template presentation
+* Fixtures in handle exceptions in path and specfile.
+* Adjustments in exceptions for Specfile.
+* RubyGems.
+* Adjustments in the library path.
 
-2010-10-14 
------------
+== 2010-10-13
 
-* Fixtures in handle exceptions in path and specfile
+* Removing conversion from string to pathname.
 
-* Adjustments in exceptions for Specfile
+== 2010-09-29
 
-* RubyGems
+* Fixes in the LOAD_PATH variable for requirements.
+* Configuration for RVM.
+* Unneeded files removed after builder test.
+* Errors fixed in load of the specfile.
+* Added the executable file in Gemspec.
+* Fixes in load the specfile without values.
 
-* Adjustments in the library path
+== 2010-09-28
 
-2010-10-13 
------------
-
-* Removing conversion from string to pathname
-
-2010-09-29 
------------
-
-* Fixes in the LOAD_PATH variable for requirements
-
-* Configuration for RVM
-
-* Unneeded files removed after builder test
-
-* Errors fixed in load of the specfile
-
-* Added the executable file in Gemspec
-
-* Fixes in load the specfile without values
-
-2010-09-28 
------------
-
-* Updates in Gemspec file
-
-* Added new files
-
-  * Project class and CLI module have been separated from main file.
-
-  * A builder has been created for improve feedback in the CLI.
-
+* Updates in Gemspec file.
+* Added new files.
+  * Project class and CLI module have been separated from main file. 
+  * A builder has been created for improve feedback in the CLI. 
+  * Documentation.
+* Several improves.
+  * Add `specfile` in fixtures. 
+  * Template methods have been improved: 
+  * List all templates. 
+  * Several query methods have been removed. 
+  * Added method for list all template paths. 
+  * All methods that build a project were removed for create a new build class. 
+  * Small fixes in empty values (nil). 
   * Documentation.
 
-* Several improves
+== 2010-09-27
 
-  * Add `specfile` in fixtures.
+* Fixes in path to model file.
+* Fixes in the load of modules.
+* Sorting command list.
+* Command for list all templates.
+* Shared path to user templates.
+* Remove test index.
 
-  * Template methods have been improved:
+== 2010-09-26
 
-    * List all templates.
+* Added command-line interface.
+* Task to build Gem.
 
-    * Several query methods have been removed.
+== 2010-09-25
 
-    * Added method for list all template paths.
+* Listing all templates by namespace.
+* Template builds all model files.
+* Change SHARED_PATH to query method shared_path.
 
-    * All methods that build a project were removed for create a new
+== 2010-09-23
 
-      build class.
-
-  * Small fixes in empty values (nil).
-
-  * Documentation.
-
-2010-09-27 
------------
-
-* Fixes in path to model file
-
-* Fixes in the load of modules
-
-* Sorting command list
-
-* Command for list all templates
-
-* Shared path to user templates
-
-* Remove test index
-
-2010-09-26 
------------
-
-* Added command-line interface
-
-* Task to build Gem
-
-2010-09-25 
------------
-
-* Listing all templates by namespace
-
-* Template builds all model files
-
-* Change SHARED_PATH to query method shared_path
-
-2010-09-23 
------------
-
-* Added counter for all test names
-
-* Template draw projects
-
-  * Updates in fixtures.
-
+* Added counter for all test names.
+* Template draw projects.
+  * Updates in fixtures. 
   * Added binding class for filters in ERB model files.
+* Documentation and changes in method names.
+* Fix in mapping of the models in the specfile.
+* Small improvements in tests.
 
-* Documentation and changes in method names
+== 2010-09-22
 
-* Fix in mapping of the models in the specfile
+* Small fixes in source code and tests.
+* Fixes in converting Hash into Struct.
+* Fixes in tasks for tests.
 
-* Small improvements in tests
+== 2010-09-17
 
-2010-09-22 
------------
-
-* Small fixes in source code and tests
-
-* Fixes in converting Hash into Struct
-
-* Fixes in tasks for tests
-
-2010-09-17 
------------
-
-* Project has been remodelled
-
-  * Project renamed to Prigner.
-
-  * Start builder DSL.
-
-  * Spec class.
-
+* Project has been remodelled.
+  * Project renamed to Prigner. 
+  * Start builder DSL. 
+  * Spec class. 
   * Project class was simplified.
 
-2010-08-17 
------------
+== 2010-08-17
 
-* Test for check the content written by model
-
-* Template and models
-
-  * A template has many model files.
-
-  * The tests and fixtures for template and models have been added.
-
+* Test for check the content written by model.
+* Template and models.
+  * A template has many model files. 
+  * The tests and fixtures for template and models have been added. 
   * Small improvements in code.
-
-* Fixture for test model
-
-* Revision in model for build contents
-
-  * The method _binding_ inside structs have been updated for public
-
-    access.
-
+* Fixture for test model.
+* Revision in model for build contents.
+  * The method _binding_ inside structs have been updated for public access. 
   * Model only builds the content and draws a destination file.
 
-2010-08-16 
------------
+== 2010-08-16
 
-* Fix error in parse an empty Hash to Struct
-
-* Deleting temporary files
-
-* Refactoring in template
-
-  * Load options from configuration file.
-
+* Fix error in parse an empty Hash to Struct.
+* Deleting temporary files.
+* Refactoring in template.
+  * Load options from configuration file. 
   * The template is a simple directory tree.
-
-* Basic model finished
-
+* Basic model finished.
   * Tests and fixtures for model.
 
-2010-08-15 
------------
+== 2010-08-15
 
-* Small improvements in code
+* Small improvements in code.
 
-2010-08-14 
------------
+== 2010-08-14
 
-* Basic template finished
-
-  * Tests and fixtures for templates.
-
+* Basic template finished.
+  * Tests and fixtures for templates. 
   * Fix in changelog task.
-
-* Basic project finished
-
-  * Class for Ruby project is based in a simple directory path.
-
-  * Gemspec file.
-
-  * Several useful extensions.
-
-  * Tests.
-
+* Basic project finished.
+  * Class for Ruby project is based in a simple directory path. 
+  * Gemspec file. 
+  * Several useful extensions. 
+  * Tests. 
   * Tasks for development and publishing.
-
-* Added basic files
-
-* First commit
-
+* Added basic files.
+* First commit.

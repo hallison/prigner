@@ -8,13 +8,14 @@ Gem::Specification.new do |spec|
   spec.authors = ["Hallison Batista"]
   spec.email = "hallison@codigorama.com"
   spec.homepage = "http://codigorama.com/products/prigner"
+  spec.rubyforge_project = spec.name
   spec.executables = [ "prign" ]
   spec.default_executable = "prign"
   #
 
   #version
-  spec.version = "0.1.0"
-  spec.date = "2010-10-18"
+  spec.version = "0.2.0"
+  spec.date = "2010-10-24"
   #
 
   #dependencies
@@ -96,8 +97,6 @@ Gem::Specification.new do |spec|
     "--title", "Prigner v#{spec.version} API Documentation"
   ]
 
-  #rubygems
-  spec.rubyforge_project = spec.name
   spec.post_install_message = <<-end_message.gsub(/^[ ]{4}/,'')
     #{'-'*78}
     Prigner v#{spec.version}
