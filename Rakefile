@@ -76,7 +76,7 @@ end
 
 CLOBBER << FileList["doc/*"]
 
-file "doc/api/index.html" => FileList["lib/**/*.rb", "README.mkd", "CHANGELOG"] do |filespec|
+file "doc/api/index.html" => FileList["lib/**/*.rb", "README.rdoc", "CHANGELOG"] do |filespec|
   rm_rf "doc"
   rdoc "--op", "doc/api",
        "--charset", "utf8",

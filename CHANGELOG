@@ -2,6 +2,7 @@
 
 == 2010-10-19
 
+* RDoc is the default format for documentation.
 * Improvements in the tasks and documentation.
   * The task for build the changelog file has been improved. 
   * Adding of the validation for check if the version has been tagged to releasing.

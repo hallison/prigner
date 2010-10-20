@@ -1,13 +1,11 @@
-Prigner
-=======
+= Prigner
 
 Prigner is a Project Design Kit, that is, a tool which creates a conventional
 structure for several projects as RubyGems, Websites, MVC application and
 simple scripts. It is a DRY tool, because everything is based in templates. In
 short, a project template engine.
 
-Features
-========
+== Features
 
 * Load and create all directories and files from templates.
 * Default Ruby project templates.
@@ -19,56 +17,53 @@ Features
   * Deploy.
   * Code for versioning.
 
-Installation
-============
+== Installation
 
 First, install Prigner stable through Gem:
 
-    gem install prigner
+  gem install prigner
 
-Usage
-=====
+== Usage
 
 Prigner create the most common Ruby projects through templates shared. To
 generate new Gem project, run command using the following syntax:
 
-    prign new ruby:gem foo
+  prign new ruby:gem foo
 
-    foo
-    |-- CHANGELOG
-    |-- COPYRIGHT
-    |-- README.mkd
-    |-- Rakefile
-    |-- bin
-    |   `-- foo
-    |-- foo.gemspec
-    |-- lib
-    |   |-- foo
-    |   `-- foo.rb
-    `-- test
-        |-- fixtures
-        |-- foo_test.rb
-        `-- helper.rb
+  foo
+  |-- CHANGELOG
+  |-- COPYRIGHT
+  |-- README.mkd
+  |-- Rakefile
+  |-- bin
+  |   `-- foo
+  |-- foo.gemspec
+  |-- lib
+  |   |-- foo
+  |   `-- foo.rb
+  `-- test
+      |-- fixtures
+      |-- foo_test.rb
+      `-- helper.rb
 
 This command will generate 'foo' Gem project structure. Or, you maybe create a
 Ruby script or a UNIX-like program.
 
-    prign new bash:script bar
+  prign new bash:script bar
 
-    bar
-    |-- bar
-    `-- barrc
+  bar
+  |-- bar
+  `-- barrc
 
-    prign new bash:program ducklet
+  prign new bash:program ducklet
 
-    ducklet
-    |-- bin
-    |   `-- ducklet
-    `-- etc
-        `-- duckletrc
+  ducklet
+  |-- bin
+  |   `-- ducklet
+  `-- etc
+      `-- duckletrc
 
-Templates
-=========
+== Templates
 
 Prigner offer the following templates:
 
@@ -79,12 +74,11 @@ Prigner offer the following templates:
     directories for fixtures.
   * Sinatra basic application.
 
-Copyright
-=========
+== Copyright
 
-Written by [Hallison Batista](http://hallisonbatista.com/whoiam).
+Written by [Hallison Batista](http://github.com/hallison).
 
-Prigner is Copyright (C) 2010, [Codigorama](http://codigorama.com/products).
+Prigner is Copyright (C) 2010, [Codigorama](http://codigorama.com).
 
 See COPYRIGHT file for more information about license.
 
