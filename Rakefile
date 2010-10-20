@@ -1,7 +1,7 @@
 require "rake/clean"
 require "lib/prigner"
 
-# Helpers
+# Configurations
 # =============================================================================
 
 def rdoc(*args)
@@ -24,27 +24,44 @@ def test(pattern)
   end
 end
 
+def git(cmd, *args)
+  `git #{cmd.to_s.gsub('_','-')} #{args.join(' ')}`
+end
+
 def manifest
-  @manifest ||= `git ls-files`.split("\n").sort.reject do |out|
+  @manifest ||= git(:ls_files).split("\n").sort.reject do |out|
     out =~ /^\./ || out =~ /^doc/
   end.map do |file|
     "    #{file.inspect}"
   end.join(",\n")
 end
 
-def log
-  @log ||= `git log --date=short --format='%d;%cd;%s;%b;'`
-end
-
 def version
   @version ||= Prigner.version
 end
 
-def gemspec
-  @gemspec ||= Struct.new(:spec, :file).new
-  @gemspec.file ||= Pathname.new("prigner.gemspec")
-  @gemspec.spec ||= eval @gemspec.file.read
-  @gemspec
+def tag
+  git(:tag).split("\n").last
+end
+
+def log
+  @log ||= `git log --date=short --format='%d;%cd;%s;%b;'`
+end
+
+def specfile
+  @specfile ||= Pathname.new("prigner.gemspec")
+end
+
+def spec
+  @spec ||= eval(specfile.read)
+end
+
+def package_path
+  specfile.dirname.join("pkg").join("#{spec.name}-#{spec.version}")
+end
+
+def package(ext = "")
+  specfile.dirname.join("#{package_path}#{ext}")
 end
 
 # Documentation
@@ -105,39 +122,26 @@ end
 # Versioning
 # =============================================================================
 
+desc "Dump version (current v#{version.tag})."
+task :version, [:counter,:release] do |spec, args|
+  numbering = version.numbering
+  tagnames  = %w[major minor patch]
+
+  if index = tagnames.index(args[:counter])
+    numbering[index] += 1
+    numbering.fill(0, (index + 1)..-1)
+  else
+    numbering[-1] += 1
+  end
+
+  numbering[-1] = "#{numbering[-1]}#{args[:release]}"
+  version.tag   = numbering.join(".")
+  version.save!
+  puts version.to_hash.to_yaml
+end
+
 namespace :version do
-
-  major, minor, patch, build = version.tag.split(".").map{ |key| key.to_i } << 0
-
-  desc "Dump major version"
-  task :major do
-    version.tag = "#{major+=1}.0.0"
-    version.save!
-    puts version.to_hash.to_yaml
-  end
-
-  desc "Dump minor version"
-  task :minor do
-    version.tag = "#{major}.#{minor+=1}.0"
-    version.save!
-    puts version.to_hash.to_yaml
-  end
-
-  desc "Dump patch version"
-  task :patch do
-    version.tag = "#{major}.#{minor}.#{patch+=1}"
-    version.save!
-    puts version.to_hash.to_yaml
-  end
-
-  desc "Dump build version"
-  task :build do
-    version.tag = "#{major}.#{minor}.#{patch}.#{build+=1}"
-    version.save!
-    puts version.to_hash.to_yaml
-  end
-
-  desc "Update version date (current #{version.date})"
+  desc "Update version date (current #{version.date})."
   task :date, [:date] do |spec, args|
     require "parsedate"
     require "date"
@@ -148,11 +152,13 @@ namespace :version do
   end
 end
 
-# RubyGems
+# Packaging
 # =============================================================================
 
-file gemspec.file => FileList["{lib,test}/**", "Rakefile"] do
-  spec = gemspec.file.read
+CLOBBER << FileList["#{package_path.dirname}/*"]
+
+file specfile => FileList["{bin,lib,test}/**", "Rakefile"] do
+  spec = specfile.read
 
   puts "Updating version ..."
     spec.sub! /spec\.version\s*=\s*".*?"/,  "spec.version = #{version.tag.inspect}"
@@ -163,29 +169,46 @@ file gemspec.file => FileList["{lib,test}/**", "Rakefile"] do
   puts "Updating file list ..."
     spec.sub! /spec\.files\s*=\s*\[.*?\]/m, "spec.files = [\n#{manifest}\n  ]"
 
-  gemspec.file.open("w+") { |file| file << spec }
+  specfile.open("w+") { |file| file << spec }
 
-  puts "Successfully update #{gemspec.file} file"
+  puts "Successfully update #{specfile} file"
 end
 
-desc "Build gem package #{gemspec.spec.file_name}."
-task :build => gemspec.file do
-  sh "gem build #{gemspec.file}"
+directory package_path.to_s
+
+file package(".gem") => [ package_path.dirname, specfile ] do |file|
+  sh "gem build #{specfile}"
+  mv spec.file_name, file.prerequisites.first
 end
 
-desc "Deploy gem package to RubyGems.org."
-task :deploy => :build do
-  sh "gem push #{gemspec.spec.file_name}"
+file package(".tar.gz") => [ package_path, specfile ] do |file|
+  spec.files.each do |source|
+    package_path.join(source).dirname.mkpath
+    cp source, package_path.join(source)
+  end
+  cd package_path.dirname
+  sh "tar czvf #{package(".tar.gz").basename} #{package_path.basename}/*"
 end
 
-desc "Install gem package #{gemspec.spec.file_name}."
-task :install => :build do
-  sh "gem install #{gemspec.spec.file_name} --local"
+desc "Build packages."
+task :package => [package(".gem"), package(".tar.gz")]
+
+desc "Release gem package to repositories."
+task :release => :package do
+  news = File.read("v#{spec.version}.tag")
+  sh "gem push #{package('.gem')}"
+  sh "rubyforge add_release #{spec.name} #{spec.version} #{package('.gem')}"
+  sh "rubyforge add_news 'Prigner v#{spec.version} released' '#{news}'"
 end
 
-desc "Uninstall gem package #{gemspec.spec.file_name}."
+desc "Install gem package #{spec.file_name}."
+task :install => :package do
+  sh "gem install #{package('.gem')} --local"
+end
+
+desc "Uninstall gem package #{spec.file_name}."
 task :uninstall do
-  sh "gem uninstall #{gemspec.spec.name} --version #{gemspec.spec.version}"
+  sh "gem uninstall #{spec.name} --version #{spec.version}"
 end
 
 task :gem => :build

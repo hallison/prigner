@@ -102,17 +102,9 @@ Gem::Specification.new do |spec|
     #{'-'*78}
     Prigner v#{spec.version}
 
-    Thanks for use Prigner.
-
-    Try run:
+    Thanks for use Prigner. See all shared templates running:
 
     $ prign list
-
-    See all shared templates. If you want customize a template, just run:
-
-    $ prign copy <namespace>[:template]
-
-    Please, feedback in http://github.com/codigorama/prigner/issues.
     #{'-'*78}
   end_message
   #

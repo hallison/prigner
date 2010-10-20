@@ -1,8 +1,7 @@
 #@ --- 
 #@ :timestamp: 2009-07-16 14:05:16 -04:00
-#@ :date: 2010-10-18
-#@ :tag: 0.1.0
-#@ :milestone: Alpha
+#@ :date: 2010-10-24
+#@ :tag: 0.2.0
 # encoding: UTF-8
 
 # Copyright (c) 2009, 2010, Hallison Batista
@@ -36,13 +35,17 @@ module Prigner
     @version ||= Version.current
   end
 
-  class Version #:nodoc:
+  # The objective of this class is to implement various ideas proposed by the
+  # Semantic Versioning Specification (see reference[http://semver.org/]).
+  class Version
 
     FILE = Pathname.new(__FILE__).freeze
 
-    attr_accessor :tag, :date, :milestone
+    attr_accessor :date, :tag
+
     attr_reader :timestamp
 
+    # Basic initialization of the attributes using a single hash.
     def initialize(attributes = {})
       attributes.each do |attribute, value|
         send("#{attribute}=", value) if respond_to? "#{attribute}="
@@ -50,17 +53,27 @@ module Prigner
       @timestamp = attributes[:timestamp]
     end
 
+    # The numbering of the major, minor and patch values.
+    def numbering
+      self.tag.split(".").map do |key|
+        if key.match(/^(\d{1,})(\w+).*$/)
+          [ $1.to_i, $2 ]
+        else
+          key.to_i
+        end
+      end.flatten
+    end
+
     def to_hash
-      [:tag, :date, :milestone, :timestamp].inject({}) do |hash, key|
+      [:tag, :date, :timestamp].inject({}) do |hash, key|
         hash[key] = send(key)
         hash
       end
     end
 
     def save!
-      @date = Date.today
       source = FILE.readlines
-      source[0..4] = self.to_hash.to_yaml.to_s.gsub(/^/, '#@ ')
+      source[0..3] = self.to_hash.to_yaml.to_s.gsub(/^/, '#@ ')
       FILE.open("w+") do |file|
         file << source.join("")
       end
@@ -69,7 +82,7 @@ module Prigner
 
     class << self
       def current
-        yaml = FILE.readlines[0..4].
+        yaml = FILE.readlines[0..3].
                  join("").
                  gsub(/\#@ /,'')
         new(YAML.load(yaml))
@@ -77,7 +90,7 @@ module Prigner
 
       def to_s
         name.match(/(.*?)::.*/)
-        "#{$1} v#{current.tag}, #{current.date} (#{current.milestone})"
+        "#{$1} v#{current.tag} (#{current.date})"
       end
     end # self
 
