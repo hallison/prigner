@@ -205,13 +205,15 @@ task :package => [package(".gem"), package(".tar.gz")]
 desc "Release gem package to repositories."
 task :release => [ :tagged, :package ] do
   sh "gem push #{package('.gem')}"
-  { :release => ".gem", :file => ".tar.gz" }.each do |file, ext|
-    sh "rubyforge add_#{file}",
-       "#{spec.rubyforge_project}",
-       "#{spec.name} #{spec.version} #{package(ext)}"
+  [%w[release .gem], %w[file .tar.gz]].each do |file, ext|
+    sh <<-endsh.gsub(/^[ ]{6}/,"")
+      rubyforge add_#{file} #{spec.rubyforge_project} #{spec.name} #{spec.version} #{package(ext)}
+    endsh
   end
   if release_notes.exist?
-    sh "rubyforge add_news 'Prigner v#{spec.version} released' '#{release_notes.read}'"
+    sh <<-endsh.gsub(/^[ ]{6}/,"")
+      rubyforge post_news #{spec.rubyforge_project} 'Prigner v#{spec.version} released' '#{release_notes.read}'
+    endsh
   end
 end
 
