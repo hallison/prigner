@@ -1,7 +1,10 @@
 # This code extracted from book "Ruby Best Practices" and the code be found
 # in http://github.com/sandal/rbp/blob/master/testing/test_unit_extensions.rb
 
-FIXTURES = File.expand_path(File.join(File.dirname(__FILE__), "fixtures")) unless defined? FIXTURES
+TEST_HOME = File.expand_path(File.dirname(__FILE__)) unless defined? TEST_HOME
+FIXTURES  = File.join(TEST_HOME, "fixtures") unless defined? FIXTURES
+
+ENV['HOME'] = "#{FIXTURES}/templates/user"
 
 module Test::Unit
   class TestCase

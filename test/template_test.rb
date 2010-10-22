@@ -2,11 +2,10 @@ require "test/unit"
 require "test/helpers"
 require "lib/prigner"
 
-class Prigner::Template
-  def self.shared_path
-    [ "#{FIXTURES}/templates/user",
-      "#{FIXTURES}/templates/shared" ]
-  end
+
+def Prigner.shared_path
+  [ "#{ENV['HOME']}/.prigner/templates",
+    "#{FIXTURES}/templates/shared/templates" ]
 end
 
 class TemplateTest < Test::Unit::TestCase
@@ -16,7 +15,7 @@ class TemplateTest < Test::Unit::TestCase
       :svn => "Include Subversion keywords in code.",
       :git => "Enable Git flags in templates."
     }
-    @path         = "#{FIXTURES}/templates/shared/ruby/default"
+    @path         = "#{FIXTURES}/templates/shared/templates/ruby/default"
     @project_path = "#{FIXTURES}/project/foo"
     @template     = Prigner::Template.new(@path)
   end
@@ -50,7 +49,6 @@ class TemplateTest < Test::Unit::TestCase
   end
 
   should "load a template looking home user directory" do
-    ENV['HOME'] = "#{FIXTURES}/templates/user"
     template = Prigner::Template.load(:ruby, :program)
     assert_equal "ruby", template.namespace
     assert_equal "program", template.name
@@ -62,13 +60,13 @@ class TemplateTest < Test::Unit::TestCase
   end
 
   should "list all template paths from shared path" do
-    assert_equal 6, Prigner::Template.all_template_paths.size
+    assert_equal 7, Prigner::Template.all_template_paths.size
   end
 
   should "list all templates grouped by namespace" do
     assert_equal 3, Prigner::Template.all.keys.size
     assert_equal 1, Prigner::Template.all["bash"].size
-    assert_equal 2, Prigner::Template.all["ruby"].size
+    assert_equal 3, Prigner::Template.all["ruby"].size
     assert_equal 3, Prigner::Template.all["vim"].size
   end
 

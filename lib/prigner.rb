@@ -195,5 +195,27 @@ module Prigner
 
   end
 
+  # Look at user home and template shared path.
+  def self.shared_path
+    user_home_templates = File.join(user_home_basedir, "templates")
+    [ user_home_templates, "#{Prigner::ROOT}/share/templates" ]
+  end
+
+  # User home base directory for Prigner files.
+  def self.user_home_basedir
+    File.join(user_home, ".prigner")
+  end
+
+  # User home.
+  def self.user_home
+    File.expand_path(ENV["HOME"])
+  rescue
+    if File::ALT_SEPARATOR then
+      "C:/"
+    else
+      "/"
+    end
+  end
+
 end # Prigner
 

@@ -24,7 +24,7 @@ class SpecTest < Test::Unit::TestCase
       "module.rb"  => "lib/(project).rb",
       "empty_test.rb" => "test/(project)_test.rb"
     }
-    specfile = "#{FIXTURES}/templates/shared/ruby/default/specfile"
+    specfile = "#{FIXTURES}/templates/shared/templates/ruby/default/specfile"
     @spec = Prigner::Spec.load(specfile)
   end
 

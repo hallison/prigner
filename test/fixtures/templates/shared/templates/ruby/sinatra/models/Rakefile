@@ -1,0 +1,7 @@
+<%= '# $Id$' if option.svn.enabled %>
+require "lib/<%=project.name%>"
+
+task :test do |spec, args|
+  sh "testrb -v test/*_test.rb"
+end
+

@@ -1,0 +1,18 @@
+author      : John Doe
+email       : john.doe@se7en.com
+version     : 0.1.0
+description : Default template for Ruby/Sinatra projects
+
+options:
+  svn: Include Subversion keywords in code.
+  git: Enable Git flags in templates.
+
+directories:
+  - test/fixtures
+  - lib/(project)
+
+files:
+  README.mkd    :
+  module.rb     : lib/(project).rb
+  empty_test.rb : test/(project)_test.rb
+
