@@ -159,7 +159,10 @@ end
 CLOBBER << FileList["#{package_path.dirname}/*"]
 
 task :tagged do
-  abort "The version #{version.tag} is not tagged, yet." unless tag[1..-1] == version.tag
+  abort "The gemspec not updated to version #{version.tag} (#{spec.version})" \
+    unless spec.version.to_s == version.tag
+  abort "The version #{version.tag} is not tagged." \
+    unless tag[1..-1] == version.tag
 end
 
 file specfile => FileList["{bin,lib,test}/**", "Rakefile"] do
