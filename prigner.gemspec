@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.2.0"
-  spec.date = "2010-10-24"
+  spec.version = "0.1.1"
+  spec.date = "2010-10-21"
   #
 
   #dependencies
@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.files = [
     "CHANGELOG",
     "COPYING",
-    "README.mkd",
+    "README.rdoc",
     "Rakefile",
     "bin/prign",
     "lib/prigner.rb",
@@ -55,21 +55,27 @@ Gem::Specification.new do |spec|
     "share/templates/ruby/gem/specfile",
     "test/builder_test.rb",
     "test/fixtures/model.rb.erb",
-    "test/fixtures/templates/shared/ruby/default/README.mkd",
-    "test/fixtures/templates/shared/ruby/default/models/README.mkd",
-    "test/fixtures/templates/shared/ruby/default/models/Rakefile",
-    "test/fixtures/templates/shared/ruby/default/models/empty_test.rb",
-    "test/fixtures/templates/shared/ruby/default/models/module.rb",
-    "test/fixtures/templates/shared/ruby/default/specfile",
-    "test/fixtures/templates/user/bash/default/specfile",
-    "test/fixtures/templates/user/ruby/program/models/README.erb",
-    "test/fixtures/templates/user/ruby/program/models/cli.rb.erb",
-    "test/fixtures/templates/user/ruby/program/models/module.rb.erb",
-    "test/fixtures/templates/user/ruby/program/models/program.rb.erb",
-    "test/fixtures/templates/user/ruby/program/specfile",
-    "test/fixtures/templates/user/vim/default/specfile",
-    "test/fixtures/templates/user/vim/plugin/specfile",
-    "test/fixtures/templates/user/vim/syntax/specfile",
+    "test/fixtures/templates/shared/templates/ruby/default/README.mkd",
+    "test/fixtures/templates/shared/templates/ruby/default/models/README.mkd",
+    "test/fixtures/templates/shared/templates/ruby/default/models/Rakefile",
+    "test/fixtures/templates/shared/templates/ruby/default/models/empty_test.rb",
+    "test/fixtures/templates/shared/templates/ruby/default/models/module.rb",
+    "test/fixtures/templates/shared/templates/ruby/default/specfile",
+    "test/fixtures/templates/shared/templates/ruby/sinatra/models/README.mkd",
+    "test/fixtures/templates/shared/templates/ruby/sinatra/models/Rakefile",
+    "test/fixtures/templates/shared/templates/ruby/sinatra/models/empty_test.rb",
+    "test/fixtures/templates/shared/templates/ruby/sinatra/models/module.rb",
+    "test/fixtures/templates/shared/templates/ruby/sinatra/specfile",
+    "test/fixtures/templates/user/.prigner/sources",
+    "test/fixtures/templates/user/.prigner/templates/bash/default/specfile",
+    "test/fixtures/templates/user/.prigner/templates/ruby/program/models/README.erb",
+    "test/fixtures/templates/user/.prigner/templates/ruby/program/models/cli.rb.erb",
+    "test/fixtures/templates/user/.prigner/templates/ruby/program/models/module.rb.erb",
+    "test/fixtures/templates/user/.prigner/templates/ruby/program/models/program.rb.erb",
+    "test/fixtures/templates/user/.prigner/templates/ruby/program/specfile",
+    "test/fixtures/templates/user/.prigner/templates/vim/default/specfile",
+    "test/fixtures/templates/user/.prigner/templates/vim/plugin/specfile",
+    "test/fixtures/templates/user/.prigner/templates/vim/syntax/specfile",
     "test/helpers.rb",
     "test/model_test.rb",
     "test/project_test.rb",
@@ -85,7 +91,7 @@ Gem::Specification.new do |spec|
   #documentation
   spec.has_rdoc = true
   spec.extra_rdoc_files = [
-    "README.mkd",
+    "README.rdoc",
     "COPYING",
     "CHANGELOG"
   ]

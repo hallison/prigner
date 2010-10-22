@@ -1,7 +1,7 @@
 #@ --- 
 #@ :timestamp: 2009-07-16 14:05:16 -04:00
-#@ :date: 2010-10-24
-#@ :tag: 0.2.0
+#@ :date: 2010-10-21
+#@ :tag: 0.1.1
 # encoding: UTF-8
 
 # Copyright (c) 2009, 2010, Hallison Batista

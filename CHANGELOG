@@ -1,7 +1,8 @@
-= Prigner v0.2.0 (2010-10-24) - Changelog
+= Prigner v0.1.1 (2010-10-21) - Changelog
 
 == 2010-10-21
 
+* Releasing of version 0.1.1.
 * Bug fix in command to build new project.
   * The bug occurred when the user run the command +new+. The command interpreted an option as a project  path.
 * Improvements in the files of tests.
