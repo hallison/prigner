@@ -22,8 +22,9 @@ begin
     end_banner
 
     unless ARGV.empty?
-      name  = ARGV.shift
-      path  = ARGV.shift unless name.nil?
+      arguments.parse!
+
+      name = ARGV.shift
 
       template = Prigner::Template.load(*name.split(":"))
 
@@ -52,12 +53,13 @@ begin
       end
     end
 
-    unless path
-      puts arguments
-      exit 0
-    end
-
-    arguments.parse!
+    path = unless ARGV.empty?
+             arguments.parse!
+             path = ARGV.shift unless name.nil?
+           else
+             puts arguments
+             exit 0
+           end
 
     project = Prigner::Project.new(path)
     builder = Prigner::Builder.new(project, template)

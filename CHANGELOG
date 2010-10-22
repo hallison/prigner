@@ -1,5 +1,13 @@
 = Prigner v0.2.0 (2010-10-24) - Changelog
 
+== 2010-10-21
+
+* Bug fix in command to build new project.
+  * The bug occurred when the user run the command +new+. The command interpreted an option as a project  path.
+* Improvements in the files of tests.
+  * Shared methods in the main module. 
+  * Changes in the tests for template and spec classes.
+
 == 2010-10-19
 
 * RDoc is the default format for documentation.
