@@ -9,8 +9,6 @@ end
 
 class Hash
 
-  alias has? has_key?
-
   # Only symbolize all keys, including all key in sub-hashes. 
   def symbolize_keys
     return self.clone if self.empty?
@@ -59,9 +57,38 @@ end
 
 class Pathname
 
-  def chpath(source, path)
-    self.path.gsub(%r{#{source}}, path).to_path
+  # For compatibilities with Net::HTTP.get method.
+  def get(file)
+    result = self.join(file.gsub(/^\/(.*?)$/){$1})
+    def result.to_s
+      return [self.inspect, self.read].join("\n")
+    end
+    result
+  end
+
+  # For compatibilities with the Net::HTTPResponse.read_body method.
+  alias read_body read
+
+  # For compatibilities with the Net::HTTP.address method.
+  alias address expand_path
+
+  # For compatibilities with the Net::HTTP.port method.
+  def port
+    nil
+  end
+
+  # For compatibilities with the Net::HTTP.start method.
+  def start
+    block_given? ? (yield self) : self
   end
 
 end
 
+class NilClass
+
+  # nil is empty? of course!
+  def empty?
+    true
+  end
+
+end
