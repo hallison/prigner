@@ -15,6 +15,8 @@
 # project using +specfile+.
 class Prigner::Template
 
+  Option = Struct.new(:enabled, :description, :files)
+
   # Namespace of template.
   attr_reader :namespace
 
@@ -52,7 +54,7 @@ class Prigner::Template
     initialize_options
     initialize_directories
     initialize_models
-  rescue Exception => error
+  rescue Errno::ENOENT => error
     raise RuntimeError, error.message
   end
 
@@ -90,6 +92,13 @@ class Prigner::Template
     end
   end
 
+  # If the option has list of files, then initialize all models.
+  def initialize_models_for_option(option)
+    unless @options[option.to_sym].files.empty?
+      @models[option.to_sym] = parse_models(@options[option].files)
+    end
+  end
+
   private
 
   # Return the specfile placed in template path.
@@ -102,10 +111,14 @@ class Prigner::Template
     @spec = Prigner::Spec.load(specfile)
   end
 
-  # Initialize options.
+  # The "+options+" attribute is a Hash that contains a list of the Option
+  # structure.
   def initialize_options
-    @options = @spec.options.inject({}) do |options, (name, desc)|
-      options[name] = { :enabled => nil, :description => desc }
+    @options = @spec.options.inject({}) do |options, (name, params)|
+      options[name] = Option.new
+      options[name].enabled     = false
+      options[name].description = params["description"] || params
+      options[name].files       = params["files"]   || {}
       options
     end.to_struct if @spec.options
   end
@@ -114,12 +127,22 @@ class Prigner::Template
     @directories = @spec.directories
   end
 
+  # All models are listed by a Hash and are indexed by "+required+" key and the
+  # option names.
   def initialize_models
-    @models = @spec.files.inject({}) do |models, (source, file)|
+    @models = {}
+    @models[:required] = parse_models(@spec.files) if @spec.files
+  end
+
+  # Parses a Hash that contains a pair of the model file name and the result
+  # output name.
+  def parse_models(hash)
+    hash.inject({}) do |models, (source, file)|
       model = Prigner::Model.new(@path.join("models", source))
+      models ||= {}
       models[model] = file ? file : source
       models
-    end if @spec.files
+    end
   end
 
 end

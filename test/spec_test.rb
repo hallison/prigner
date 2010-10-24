@@ -13,7 +13,21 @@ class SpecTest < Test::Unit::TestCase
     }
     @options = {
       "svn" => "Include Subversion keywords in code.",
-      "git" => "Enable Git flags in templates."
+      "git" => "Enable Git flags in templates.",
+      "bin" => {
+        "description" => "Include executable file in bin/<name>.",
+        "files" => {
+          "executable" => "bin/(project)",
+          "cli.rb" => "lib/(project)/cli.rb"
+        }
+      },
+      "test" => {
+        "description" => "Include test files.",
+        "files" => {
+          "empty_test.rb" => "test/(project)_test.rb",
+          "testhelper.rb" => "test/helper.rb"
+        }
+      }
     }
     @directories = [
       "test/fixtures",
@@ -22,13 +36,12 @@ class SpecTest < Test::Unit::TestCase
     @files = {
       "README.mkd" => nil,
       "module.rb"  => "lib/(project).rb",
-      "empty_test.rb" => "test/(project)_test.rb"
     }
     specfile = "#{FIXTURES}/templates/shared/templates/ruby/default/specfile"
     @spec = Prigner::Spec.load(specfile)
   end
 
-  should "check basic informatio about template" do
+  should "check basic information about template" do
     @info.each do |attribute, value|
       assert_equal value, @spec.send(attribute)
     end
@@ -37,7 +50,8 @@ class SpecTest < Test::Unit::TestCase
 
     %w{options files}.each do |checker|
       instance_variable_get("@#{checker}").each do |attribute, value|
-        assert_equal value, @spec.send(checker)[attribute]
+        checking = @spec.send(checker)[attribute]
+        assert_equal value, checking
       end
     end
   end

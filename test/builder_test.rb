@@ -2,6 +2,11 @@ require "test/unit"
 require "test/helpers"
 require "lib/prigner"
 
+def Prigner.shared_path
+  [ "#{ENV['HOME']}/.prigner/templates",
+    "#{FIXTURES}/templates/shared/templates" ]
+end
+
 class BuilderTest < Test::Unit::TestCase
 
   def setup
@@ -31,6 +36,16 @@ class BuilderTest < Test::Unit::TestCase
     files = @builder.make_project_files
     files.each do |file, status|
       assert status, "File #{file} not created"
+    end
+  end
+
+  should "create optional files" do
+    options = %w[bin test]
+    options.each do |option|
+      files = @builder.make_project_files_for_option(option)
+      files.each do |file, status|
+        assert status, "File #{file} not created"
+      end
     end
   end
 

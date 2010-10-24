@@ -2,7 +2,6 @@ require "test/unit"
 require "test/helpers"
 require "lib/prigner"
 
-
 def Prigner.shared_path
   [ "#{ENV['HOME']}/.prigner/templates",
     "#{FIXTURES}/templates/shared/templates" ]
@@ -12,8 +11,9 @@ class TemplateTest < Test::Unit::TestCase
 
   def setup
     @options = {
-      :svn => "Include Subversion keywords in code.",
-      :git => "Enable Git flags in templates."
+      :svn => { :description => "Include Subversion keywords in code." },
+      :git => { :description => "Enable Git flags in templates." },
+      :bin => { :description => "Include executable file in bin/<name>." }
     }
     @path         = "#{FIXTURES}/templates/shared/templates/ruby/default"
     @project_path = "#{FIXTURES}/project/foo"
@@ -30,8 +30,12 @@ class TemplateTest < Test::Unit::TestCase
   end
 
   should "load options" do
-    @options.keys.each do |option|
-      assert_equal @options[option], @template.options[option].description
+    template = Prigner::Template.load(:ruby)
+    @options.each do |option, members|
+      members.each do |name, value|
+        assert_equal value, @template.options[option].send(name)
+        assert_equal value, template.options[option].send(name)
+      end
     end
   end
 
@@ -56,7 +60,7 @@ class TemplateTest < Test::Unit::TestCase
 
   should "check number of models and directories" do
     assert_equal 2, @template.directories.size
-    assert_equal 3, @template.models.size, "Models size not matched"
+    assert_equal 2, @template.models[:required].size
   end
 
   should "list all template paths from shared path" do
@@ -79,6 +83,17 @@ class TemplateTest < Test::Unit::TestCase
   should "raise runtime error when nil values to namespace and/or template" do
     assert_raises RuntimeError do
       Prigner::Template.load(nil, nil)
+    end
+  end
+
+  should "initialize all optional models" do
+    [:bin, :test].each do |option|
+      assert @template.options.respond_to?(option)
+      @template.initialize_models_for_option(option)
+      assert_equal 2, @template.models[option].size
+      @template.models[option].each do |model, file|
+        assert model.path.exist?
+      end
     end
   end
 

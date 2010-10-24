@@ -1,18 +1,30 @@
-author      : John Doe
-email       : john.doe@se7en.com
-version     : 0.1.0
-description : Default template for Ruby projects
+author: John Doe
+email: john.doe@se7en.com
+version: 0.1.0
+description: Default template for Ruby projects
 
 options:
-  svn: Include Subversion keywords in code.
-  git: Enable Git flags in templates.
+  svn:
+    Include Subversion keywords in code.
+  git:
+    Enable Git flags in templates.
+  bin:
+    description: Include executable file in bin/<name>.
+    files:
+      executable: bin/(project)
+      cli.rb: lib/(project)/cli.rb
+  test:
+    description: Include test files.
+    files:
+      empty_test.rb: test/(project)_test.rb
+      testhelper.rb: test/helper.rb
 
 directories:
   - test/fixtures
   - lib/(project)
 
 files:
-  README.mkd    :
-  module.rb     : lib/(project).rb
-  empty_test.rb : test/(project)_test.rb
+  README.mkd:
+  module.rb: lib/(project).rb
 
+# vim: filetype=yaml
