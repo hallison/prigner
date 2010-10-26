@@ -93,9 +93,10 @@ class Prigner::Template
   end
 
   # If the option has list of files, then initialize all models.
-  def initialize_models_for_option(option)
-    unless @options[option.to_sym].files.empty?
-      @models[option.to_sym] = parse_models(@options[option].files)
+  def initialize_models_for_option(optname)
+    option = optname.to_sym
+    unless @options[option].files.empty?
+      @models[option] = parse_models(@options[option].files)
     end
   end
 
