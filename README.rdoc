@@ -7,14 +7,13 @@ short, a project template engine.
 
 == Features
 
-* Load and create all directories and files from templates.
+* Load and create all directories and files from template specification.
+* The template specification is parsed to command line options.
 * Default Ruby project templates.
   * Ruby Gem.
   * A simple project using setup.
-  * Script file with or without directory structure.
 * Add common tasks and libraries.
   * Tests.
-  * Deploy.
   * Code for versioning.
 
 == Installation
@@ -23,6 +22,10 @@ First, install Prigner stable through Gem:
 
   gem install prigner
 
+If you want try the developer source:
+
+  git clone http://github.com/codigorama/prigner.git
+
 == Usage
 
 Prigner create the most common Ruby projects through templates shared. To
@@ -30,55 +33,42 @@ generate new Gem project, run command using the following syntax:
 
   prign new ruby:gem foo
 
-  foo
-  |-- CHANGELOG
-  |-- COPYRIGHT
-  |-- README.mkd
-  |-- Rakefile
-  |-- bin
-  |   `-- foo
-  |-- foo.gemspec
-  |-- lib
-  |   |-- foo
+  foo/
+  |-- lib/
+  |   |-- foo/
   |   `-- foo.rb
-  `-- test
-      |-- fixtures
-      |-- foo_test.rb
-      `-- helper.rb
+  |-- CHANGELOG
+  |-- COPYING
+  `-- README.rdoc
 
-This command will generate 'foo' Gem project structure. Or, you maybe create a
-Ruby script or a UNIX-like program.
+This command will generate 'foo' Gem project structure. But all templates
+offers options.
 
-  prign new bash:script bar
+  prign new ruby:gem --test --bin
 
-  bar
-  |-- bar
-  `-- barrc
+  foo/
+  |-- bin/
+  |   `-- foo
+  |-- lib/
+  |   |-- foo/
+  |   `-- foo.rb
+  |-- test/
+  |   |-- foo_test.rb
+  |   `-- helper.rb
+  |-- CHANGELOG
+  |-- COPYING
+  `-- README.rdoc
 
-  prign new bash:program ducklet
+Run <tt>prign list</tt> to view all available templates.
 
-  ducklet
-  |-- bin
-  |   `-- ducklet
-  `-- etc
-      `-- duckletrc
-
-== Templates
-
-Prigner offer the following templates:
-
-* Ruby
-  * Default project based only library directory and common files as
-    README.rdoc, CHANGELOG
-  * Gem project that include library directory, main module, test and
-    directories for fixtures.
-  * Sinatra basic application.
+You can creates your own templates. Just save in your home directory
+<tt>~/.prigner/templates/<your-template></tt>.
 
 == Copyright
 
-Written by [Hallison Batista](http://github.com/hallison).
+Written by {Hallison Batista}[http://github.com/hallison].
 
-Prigner is Copyright (C) 2010, [Codigorama](http://codigorama.com).
+Prigner is Copyright (C) 2010, {Codigorama}[http://codigorama.com].
 
 See COPYRIGHT file for more information about license.
 

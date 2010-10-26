@@ -39,8 +39,7 @@ module Prigner::CLI
   def self.run(*args)
     command = args.shift if commands.include? args.first
     raise RuntimeError, "unknown command '#{args.first}'" unless command
-    rubyopt = "-I#{Prigner::ROOT}/lib"
-    exec ruby, rubyopt, source(command), *args
+    exec ruby, source(command), *args
   end
 
   class Status

@@ -21,16 +21,19 @@ begin
 
     end_banner
 
-    unless ARGV.empty?
-      arguments.parse!
-
+    unless ARGV.empty? or ARGV[0] =~ /^-.*?/
       name = ARGV.shift
 
-      template = Prigner::Template.load(*name.split(":"))
-
-      if template
+      if template = Prigner::Template.load(*name.split(":"))
         arguments.banner = <<-end_banner.gsub /^[ ]{10}/, ''
           #{Prigner::Version}
+
+          Template:
+            #{template.mask} v#{template.spec.version}
+
+            #{template.spec.description}
+
+            Written by #{template.spec.author} <#{template.spec.email}>.
 
           Usage:
             #{program} #{command} #{template.mask} <path> [options]
@@ -51,6 +54,9 @@ begin
       else
         raise RuntimeError, "unable to load template '#{name}'"
       end
+
+      arguments.parse!
+
     end
 
     path = unless ARGV.empty?
@@ -84,9 +90,25 @@ begin
       builder.make_project_directories
     end
 
-    status.start "Writing files" do
+    status.start "Writing required files" do
       builder.make_project_files
     end
+
+    options_used = []
+    template.options.members.each do |optname|
+      option = template.options[optname]
+      if option.enabled and option.files.size > 0
+        builder.make_project_files_for_option(optname)
+        options_used << optname
+      end
+    end if template.options
+
+    for optional in options_used
+      status.start "Writing #{optional} files" do
+        builder.make_project_files_for_option(optional)
+      end
+    end
+
 
   end
 

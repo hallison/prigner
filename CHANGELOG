@@ -1,5 +1,17 @@
 = Prigner v0.1.1 (2010-10-21) - Changelog
 
+== 2010-10-24
+
+* Adding of optional models.
+  * Each option can include the itself list of models. 
+  * Enhancements in library for handle the optional models.
+* More core extensions.
+
+== 2010-10-22
+
+* Fixes in the tasks for releasing of packages.
+* Checking of the tagged current version.
+
 == 2010-10-21
 
 * Releasing of version 0.1.1.
