@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.1.1"
-  spec.date = "2010-10-21"
+  spec.version = "0.2.0"
+  spec.date = "2010-10-27"
   #
 
   #dependencies
@@ -40,26 +40,35 @@ Gem::Specification.new do |spec|
     "lib/prigner/project.rb",
     "lib/prigner/template.rb",
     "prigner.gemspec",
+    "share/templates/bash/default/models/script.sh",
+    "share/templates/bash/default/models/scriptrc",
+    "share/templates/bash/default/specfile",
     "share/templates/ruby/default/models/CHANGELOG",
     "share/templates/ruby/default/models/COPYING",
     "share/templates/ruby/default/models/README.rdoc",
+    "share/templates/ruby/default/models/executable",
     "share/templates/ruby/default/models/module.rb",
+    "share/templates/ruby/default/models/testhelper.rb",
     "share/templates/ruby/default/specfile",
     "share/templates/ruby/gem/models/CHANGELOG",
     "share/templates/ruby/gem/models/COPYING",
-    "share/templates/ruby/gem/models/README.mkd",
+    "share/templates/ruby/gem/models/README.rdoc",
     "share/templates/ruby/gem/models/Rakefile",
-    "share/templates/ruby/gem/models/empty_test.rb",
+    "share/templates/ruby/gem/models/cli.rb",
+    "share/templates/ruby/gem/models/executable",
     "share/templates/ruby/gem/models/gemspec",
     "share/templates/ruby/gem/models/module.rb",
+    "share/templates/ruby/gem/models/testhelper.rb",
     "share/templates/ruby/gem/specfile",
     "test/builder_test.rb",
     "test/fixtures/model.rb.erb",
-    "test/fixtures/templates/shared/templates/ruby/default/README.mkd",
     "test/fixtures/templates/shared/templates/ruby/default/models/README.mkd",
     "test/fixtures/templates/shared/templates/ruby/default/models/Rakefile",
+    "test/fixtures/templates/shared/templates/ruby/default/models/cli.rb",
     "test/fixtures/templates/shared/templates/ruby/default/models/empty_test.rb",
+    "test/fixtures/templates/shared/templates/ruby/default/models/executable",
     "test/fixtures/templates/shared/templates/ruby/default/models/module.rb",
+    "test/fixtures/templates/shared/templates/ruby/default/models/testhelper.rb",
     "test/fixtures/templates/shared/templates/ruby/default/specfile",
     "test/fixtures/templates/shared/templates/ruby/sinatra/models/README.mkd",
     "test/fixtures/templates/shared/templates/ruby/sinatra/models/Rakefile",

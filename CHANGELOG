@@ -2,6 +2,7 @@
 
 == 2010-10-27
 
+* Releasing of version 0.2.0.
 * Adding of template for Bash script.
 * Fixes in error of the emtpy directories.
 * Updates in shared templates.
