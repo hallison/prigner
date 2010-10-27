@@ -125,7 +125,7 @@ class Prigner::Template
   end
 
   def initialize_directories
-    @directories = @spec.directories
+    @directories = @spec.directories || []
   end
 
   # All models are listed by a Hash and are indexed by "+required+" key and the

@@ -88,7 +88,7 @@ begin
 
     status.start "Creating directories" do
       builder.make_project_directories
-    end
+    end unless builder.template.directories.empty?
 
     status.start "Writing required files" do
       builder.make_project_files
