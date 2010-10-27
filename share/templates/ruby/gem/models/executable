@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "<%=project.name%>"
+
+ARGV.options do |args|
+
+  args.on "-s", "--set VALUE", String, "Set anything" do |anything|
+    puts "Setting anything to #{anything} ..."
+  end
+
+  args.on "-a", "--anything", TrueClass, "Do anything!" do |enabled|
+    puts "Enable to doing anything ..." if enabled
+  end
+
+  unless ARGV.empty?
+    args.parse!
+  else
+    puts args
+    exit 0
+  end
+
+end

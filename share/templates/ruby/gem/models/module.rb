@@ -1,7 +1,6 @@
 #@ --- 
-#@ :tag: 0.0.1
+#@ :tag: 0.1.0
 #@ :date: <%=date%>
-#@ :milestone: Pre-Alpha
 #@ :timestamp: <%=Time.now.strftime "%F %T %z"%>
 
 # encoding: UTF-8
@@ -15,18 +14,24 @@ module <%=project.upper_camel_case_namespace%>
   require "pathname"
   require "yaml"
 
+  ROOT = File.join(File.dirname(__FILE__), "..")
+
   # Return the current version.
   def self.version
     @version ||= Version.current
   end
 
-  class Version #:nodoc:
+  # The objective of this class is to implement various ideas proposed by the
+  # Semantic Versioning Specification (see reference[http://semver.org/]).
+  class Version
 
     FILE = Pathname.new(__FILE__).freeze
 
-    attr_accessor :tag, :date, :milestone
+    attr_accessor :date, :tag
+
     attr_reader :timestamp
 
+    # Basic initialization of the attributes using a single hash.
     def initialize(attributes = {})
       attributes.each do |attribute, value|
         send("#{attribute}=", value) if respond_to? "#{attribute}="
@@ -34,17 +39,27 @@ module <%=project.upper_camel_case_namespace%>
       @timestamp = attributes[:timestamp]
     end
 
+    # The numbering of the major, minor and patch values.
+    def numbering
+      self.tag.split(".").map do |key|
+        if key.match(/^(\d{1,})(\w+).*$/)
+          [ $1.to_i, $2 ]
+        else
+          key.to_i
+        end
+      end.flatten
+    end
+
     def to_hash
-      [:tag, :date, :milestone, :timestamp].inject({}) do |hash, key|
+      [:tag, :date, :timestamp].inject({}) do |hash, key|
         hash[key] = send(key)
         hash
       end
     end
 
     def save!
-      @date = Date.today
       source = FILE.readlines
-      source[0..4] = self.to_hash.to_yaml.to_s.gsub(/^/, '#@ ')
+      source[0..3] = self.to_hash.to_yaml.to_s.gsub(/^/, '#@ ')
       FILE.open("w+") do |file|
         file << source.join("")
       end
@@ -53,7 +68,7 @@ module <%=project.upper_camel_case_namespace%>
 
     class << self
       def current
-        yaml = FILE.readlines[0..4].
+        yaml = FILE.readlines[0..3].
                  join("").
                  gsub(/\#@ /,'')
         new(YAML.load(yaml))
@@ -61,7 +76,7 @@ module <%=project.upper_camel_case_namespace%>
 
       def to_s
         name.match(/(.*?)::.*/)
-        "#{$1} v#{current.tag}, #{current.date} (#{current.milestone})"
+        "#{$1} v#{current.tag} (#{current.date})"
       end
     end # self
 

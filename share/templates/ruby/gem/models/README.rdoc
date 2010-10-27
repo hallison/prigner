@@ -1,0 +1,4 @@
+= <%=project.upper_camel_case_namespace%>
+
+This is my great Ruby project.
+

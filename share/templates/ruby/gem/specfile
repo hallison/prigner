@@ -1,9 +1,19 @@
-author      : Hallison Batista
-email       : hallison@codigorama.com
-version     : 0.1.0
-description : Default template for RubyGem projects
+author:
+  Hallison Batista
+email:
+  hallison@codigorama.com
+version:
+  0.2.0
+description:
+  Default template for RubyGem projects.
 
 options:
+  bin:
+    description:
+      Includes executable file.
+    files:
+      executable: bin/(project)
+      cli.rb: lib/(project)/cli.rb
 
 directories:
   - lib/(project)
@@ -12,9 +22,11 @@ directories:
 files:
   CHANGELOG:
   COPYING:
-  README.mkd:
+  README.rdoc:
   Rakefile:
-  gemspec:       (project).gemspec
-  module.rb:     lib/(project).rb
-  empty_test.rb: test/(project)_test.rb
+  gemspec: (project).gemspec
+  module.rb: lib/(project).rb
+  test.rb: test/(project)_test.rb
+  testhelper.rb: test/helper.rb
 
+# vim: filetype=yaml

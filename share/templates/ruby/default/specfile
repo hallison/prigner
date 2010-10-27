@@ -1,9 +1,24 @@
-author      : Hallison Batista
-email       : hallison@codigorama.com
-version     : 0.1.0
-description : Default template for Ruby projects
+author:
+  Hallison Batista
+email:
+  hallison@codigorama.com
+version:
+  0.1.0
+description:
+  Default template for Ruby projects.
 
 options:
+  bin:
+    description:
+      Includes executable file.
+    files:
+      executable: bin/(project)
+  test:
+    description:
+      Includes test files.
+    files:
+      test.rb: test/(project)_test.rb
+      testhelper.rb: test/helper.rb
 
 directories:
   - lib/(project)
@@ -14,3 +29,4 @@ files:
   README.rdoc:
   module.rb : lib/(project).rb
 
+# vim: filetype=yaml
