@@ -1,0 +1,18 @@
+author:
+  Hallison Batista
+email:
+  hallison@codigorama.com
+version:
+  0.1.0
+description:
+  A simple Bash script
+
+options:
+
+directories:
+
+files:
+  script.sh: (project)
+  scriptrc: (project)rc
+
+# vim: filetype=yaml

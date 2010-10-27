@@ -1,5 +1,21 @@
 = Prigner v0.1.1 (2010-10-21) - Changelog
 
+== 2010-10-27
+
+* Adding of template for Bash script.
+* Fixes in error of the emtpy directories.
+* Updates in shared templates.
+
+== 2010-10-26
+
+* Adjustments in CLI command.
+  * The 'new' command has been updated for handling of optional files. 
+  * Small fixes in CLI module.
+
+== 2010-10-25
+
+* Fixes in the parsing of optional files.
+
 == 2010-10-24
 
 * Adding of optional models.
