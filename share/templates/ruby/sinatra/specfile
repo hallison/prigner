@@ -1,0 +1,46 @@
+author:
+  Hallison Batista
+email:
+  hallison@codigorama.com
+version:
+  0.1.0
+description:
+  Ruby/Sinatra application template.
+
+options:
+  bin:
+    description:
+      Includes executable file.
+    files:
+      executable: bin/(project)
+      cli.rb: lib/(project)/cli.rb
+  gem:
+    description:
+      Includes the RubyGems specification file.
+    files:
+      gemspec: (project).gemspec
+  mvc:
+    description:
+      Includes model, view and controller files.
+    files:
+      mvc/database.yml: config/database.yml
+      mvc/config.rb: lib/(project)/config.rb
+      mvc/model.rb: app/models/model.rb
+      mvc/view.erb: app/views/index.erb
+      mvc/controller.rb: app/controllers/about.rb
+
+directories:
+  - lib/(project)
+  - test/fixtures
+
+files:
+  LICENSE:
+  README.rdoc:
+  Rakefile:
+  config.ru:
+  module.rb: lib/(project).rb
+  application.rb: lib/(project)/application.rb
+  test.rb: test/(project)_test.rb
+  testhelper.rb: test/helper.rb
+
+# vim: filetype=yaml

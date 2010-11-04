@@ -1,0 +1,6 @@
+adapter: sqlite
+database: <%=project.name%>.db
+user: <%=project.user.name%>
+password: pass
+host: db
+port: 

@@ -1,0 +1,146 @@
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__)))
+
+require "rake/clean"
+require "rake/testtask"
+require "rake/gempackagetask"
+require "rake/rdoctask"
+require "lib/<%=project.name%>"
+
+# Configurations
+# =============================================================================
+
+def git(cmd, *args)
+  `git #{cmd.to_s.gsub('_','-')} #{args.join(' ')}`
+end
+
+def manifest
+  @manifest ||= git(:ls_files).split("\n").sort.reject do |out|
+    out =~ /^\./ || out =~ /^doc/
+  end.map do |file|
+    "    #{file.inspect}"
+  end.join(",\n")
+end
+
+def version
+  @version ||= <%=project.class_name%>.version
+end
+
+def tag
+  git(:tag).split("\n").last
+end
+
+def specfile
+  @specfile ||= Pathname.new("<%=project.name%>.gemspec")
+end
+
+def gemspec
+  @gemspec ||= eval(specfile.read)
+end
+
+# Test
+# =============================================================================
+
+Rake::TestTask.new do |test|
+  test.libs << "test"
+  test.test_files = FileList["test/*_test.rb"]
+  test.verbose = true
+end
+
+# Packaging
+# =============================================================================
+
+Rake::GemPackageTask.new gemspec do |spec|
+  spec.need_tar = true
+end
+
+# Documentation
+# =============================================================================
+
+Rake::RDocTask.new :doc do |rdoc|
+  rdoc.main       = "<%=project.upper_camel_case_namespace%>"
+  rdoc.title      = "<%=project.upper_camel_case_namespace%> v#{version.tag} API Documentation"
+  rdoc.rdoc_dir   = "doc/api"
+  rdoc.rdoc_files = FileList["lib/**/*.rb", "README.rdoc", "CHANGELOG"]
+  rdoc.options << "--charset utf8" << "--inline-source" << "--promiscuous" << "--line-numbers"
+end
+
+# Versioning
+# =============================================================================
+
+desc "Dump version (current v#{version.tag})."
+task :version, [:counter,:release] do |spec, args|
+  numbering = version.numbering
+  tagnames  = %w[major minor patch]
+
+  if index = tagnames.index(args[:counter])
+    numbering[index] += 1
+    numbering.fill(0, (index + 1)..-1)
+  else
+    numbering[-1] += 1
+  end
+
+  numbering[-1] = "#{numbering[-1]}#{args[:release]}"
+  version.tag   = numbering.join(".")
+  version.save!
+  puts version.to_hash.to_yaml
+end
+
+namespace :version do
+  desc "Update version date (current #{version.date})."
+  task :date, [:date] do |spec, args|
+    require "parsedate"
+    require "date"
+    yyyy, mm, dd = ParseDate.parsedate(args[:date]).compact if args[:date]
+    version.date = (yyyy && mm && dd) ? Date.new(yyyy, mm, dd) : Date.today
+    version.save!
+    puts version.to_hash.to_yaml
+  end
+end
+#
+# Packaging
+# =============================================================================
+
+task :tagged do
+  abort "The gemspec not updated to version #{version.tag} (#{gemspec.version})" \
+    unless gemspec.version.to_s == version.tag
+  abort "The version #{version.tag} is not tagged." \
+    unless tag[1..-1] == version.tag
+end
+
+file specfile => FileList["{bin,lib,test}/**", "Rakefile"] do
+  spec = specfile.read
+
+  puts "Updating version ..."
+    spec.sub! /spec\.version\s*=\s*".*?"/,  "spec.version = #{version.tag.inspect}"
+
+  puts "Updating date of version ..."
+    spec.sub! /spec\.date\s*=\s*".*?"/,     "spec.date = #{version.date.to_s.inspect}"
+
+  puts "Updating file list ..."
+    spec.sub! /spec\.files\s*=\s*\[.*?\]/m, "spec.files = [\n#{manifest}\n  ]"
+
+  specfile.open("w+") { |file| file << spec }
+
+  puts "Successfully update #{specfile} file"
+end
+
+desc "Release gem package to repositories."
+task :release => [ :tagged, :package ] do
+  sh "gem push #{package('.gem')}"
+end
+
+desc "Install gem package #{gemspec.file_name}."
+task :install => :package do
+  sh "gem install #{package('.gem')} --local"
+end
+
+desc "Uninstall gem package #{gemspec.file_name}."
+task :uninstall do
+  sh "gem uninstall #{gemspec.name} --version #{gemspec.version}"
+end
+
+# Default
+# =============================================================================
+
+task :default => :test
+
