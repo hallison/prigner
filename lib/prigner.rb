@@ -1,12 +1,19 @@
 #@ --- 
 #@ :timestamp: 2009-07-16 14:05:16 -04:00
-#@ :date: 2010-10-27
-#@ :tag: 0.2.0
+#@ :date: 2010-11-05
+#@ :tag: 0.2.1
+
+# ---
 # encoding: UTF-8
+#
+# Copyright (c) 2010, Codigorama
+# Copyright (c) 2009, Hallison Batista
+# +++
 
-# Copyright (c) 2009, 2010, Hallison Batista
-
-# The Prigner is a Projec Design Kit which help developers in DRY.
+# Prigner is a Project Design Kit, that is, a tool which creates a conventional
+# structure for several projects as RubyGems, Websites, MVC application and
+# simple scripts. It is a DRY tool, because everything is based in templates.
+# In short, a project template engine.
 module Prigner
 
   # RubyGems

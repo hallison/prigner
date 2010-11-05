@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   #about
   spec.name = "prigner"
   spec.summary = "Project designer."
-  spec.description = "Prigner is a Project Design Kit."
+  spec.description = "Prigner is a Project Design Kit (a.k.a. project builder). That is, it is a tool which builds your projects using templates."
   spec.authors = ["Hallison Batista"]
   spec.email = "hallison@codigorama.com"
   spec.homepage = "http://codigorama.com/products/prigner"
@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.2.0"
-  spec.date = "2010-10-27"
+  spec.version = "0.2.1"
+  spec.date = "2010-11-05"
   #
 
   #dependencies
@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
     "COPYING",
     "README.rdoc",
     "Rakefile",
+    "TEMPLATES.rdoc",
     "bin/prign",
     "lib/prigner.rb",
     "lib/prigner/builder.rb",
@@ -60,6 +61,23 @@ Gem::Specification.new do |spec|
     "share/templates/ruby/gem/models/module.rb",
     "share/templates/ruby/gem/models/testhelper.rb",
     "share/templates/ruby/gem/specfile",
+    "share/templates/ruby/sinatra/models/CHANGELOG",
+    "share/templates/ruby/sinatra/models/LICENSE",
+    "share/templates/ruby/sinatra/models/README.rdoc",
+    "share/templates/ruby/sinatra/models/Rakefile",
+    "share/templates/ruby/sinatra/models/application.rb",
+    "share/templates/ruby/sinatra/models/cli.rb",
+    "share/templates/ruby/sinatra/models/config.ru",
+    "share/templates/ruby/sinatra/models/executable",
+    "share/templates/ruby/sinatra/models/gemspec",
+    "share/templates/ruby/sinatra/models/module.rb",
+    "share/templates/ruby/sinatra/models/mvc/config.rb",
+    "share/templates/ruby/sinatra/models/mvc/controller.rb",
+    "share/templates/ruby/sinatra/models/mvc/database.yml",
+    "share/templates/ruby/sinatra/models/mvc/model.rb",
+    "share/templates/ruby/sinatra/models/mvc/view.erb",
+    "share/templates/ruby/sinatra/models/testhelper.rb",
+    "share/templates/ruby/sinatra/specfile",
     "test/builder_test.rb",
     "test/fixtures/model.rb.erb",
     "test/fixtures/templates/shared/templates/ruby/default/models/README.mkd",
