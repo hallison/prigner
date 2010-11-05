@@ -1,4 +1,14 @@
-= Prigner v0.1.1 (2010-10-21) - Changelog
+= Prigner v0.2.1 (2010-11-05) - Changelog
+
+== 2010-11-05
+
+* Updates in documentation.
+  * Adding of documentation for templates.
+* Small fixes in prign executable.
+
+== 2010-11-04
+
+* Adding of template for Sinatra applications.
 
 == 2010-10-27
 

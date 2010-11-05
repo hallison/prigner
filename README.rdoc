@@ -1,11 +1,13 @@
 = Prigner
 
+== DESCRIPTION
+
 Prigner is a Project Design Kit, that is, a tool which creates a conventional
 structure for several projects as RubyGems, Websites, MVC application and
 simple scripts. It is a DRY tool, because everything is based in templates. In
 short, a project template engine.
 
-== Features
+=== Features
 
 * Load and create all directories and files from template specification.
 * The template specification is parsed to command line options.
@@ -16,7 +18,12 @@ short, a project template engine.
   * Tests.
   * Code for versioning.
 
-== Installation
+== SYNOPSIS
+
+  prign [OPTIONS]
+  prign [COMMAND] [TEMPLATE]
+
+== INSTALLATION
 
 First, install Prigner stable through Gem:
 
@@ -26,7 +33,7 @@ If you want try the developer source:
 
   git clone http://github.com/codigorama/prigner.git
 
-== Usage
+== USAGE
 
 Prigner create the most common Ruby projects through templates shared. To
 generate new Gem project, run command using the following syntax:
@@ -37,38 +44,61 @@ generate new Gem project, run command using the following syntax:
   |-- lib/
   |   |-- foo/
   |   `-- foo.rb
+  |-- test/
+  |   |-- fixtures/
+  |   |-- foo_test.rb
+  |   `-- helper.rb
   |-- CHANGELOG
   |-- COPYING
+  |-- foo.gemspec
+  |-- Rakefile
   `-- README.rdoc
 
 This command will generate 'foo' Gem project structure. But all templates
 offers options.
 
-  prign new ruby:gem --test --bin
+  prign new ruby:gem foo --bin
 
   foo/
   |-- bin/
   |   `-- foo
   |-- lib/
   |   |-- foo/
+  |   |   `-- cli.rb
   |   `-- foo.rb
   |-- test/
+  |   |-- fixtures/
   |   |-- foo_test.rb
   |   `-- helper.rb
   |-- CHANGELOG
   |-- COPYING
+  |-- foo.gemspec
+  |-- Rakefile
   `-- README.rdoc
 
 Run <tt>prign list</tt> to view all available templates.
 
 You can creates your own templates. Just save in your home directory
-<tt>~/.prigner/templates/<your-template></tt>.
+<tt>~/.prigner/templates/<your-template></tt>. For more information about
+templates, see "TEMPLATES.rdoc" file.
 
-== Copyright
+== BUGS AND CONTRIBUTING
+
+If you want contributes with the project, please, see the following instructions:
+
+1. Fork the project from http://github.com/codigorama/prigner.git.
+2. Set the following environment variable: <tt>export RUBYOPT=$PWD/lib:.</tt>,
+   where +PWD+ points to project directory.
+
+If you find a bug, please, open a issue in http://github.com/codigorama/prigner/issues.
+
+== AUTHOR
 
 Written by {Hallison Batista}[http://github.com/hallison].
 
-Prigner is Copyright (C) 2010, {Codigorama}[http://codigorama.com].
+== COPYRIGHT
 
-See COPYRIGHT file for more information about license.
+Prigner is Copyright (C) 2010, {Codigorama}[http://codigorama.com] under MIT License.
+
+See COPYING file for more information about license.
 

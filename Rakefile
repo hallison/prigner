@@ -74,9 +74,9 @@ end
 # Documentation
 # =============================================================================
 
-CLOBBER << FileList["doc/api/*"]
+CLOBBER << FileList["doc/api*"]
 
-file "doc/api/index.html" => FileList["lib/**/*.rb", "README.rdoc", "CHANGELOG"] do |filespec|
+file "doc/api/index.html" => FileList["lib/**/*.rb", "README.rdoc", "TEMPLATES.rdoc", "CHANGELOG"] do |filespec|
   rdoc "--op", "doc/api",
        "--charset", "utf8",
        "--main", "'Prigner'",
