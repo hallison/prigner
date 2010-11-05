@@ -17,9 +17,8 @@ begin
       #{Prigner::Version}
 
       Usage:
-        #{program} <namespace>[:template] [path] [options]
-        #{program} <command> [command_options]
         #{program} [options]
+        #{program} <command> [options] <args>
 
       Commands:
         #{Prigner::CLI.commands.join(", ")}
