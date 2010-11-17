@@ -1,0 +1,16 @@
+= Prigner v0.1.0
+
+Implementation of the basic features.
+
+* Loads and creates all directories and files from templates.
+* Adding of basic templates:
+  * Templates for simple Ruby project.
+  * Templates for RubyGems project. This template includes:
+    * Common tasks without dependencies.
+    * Tests using `test/unit` and several customisations.
+    * Deploy to RubyGems.org.
+    * Code for versioning.
+
+This is an alpha version. For more informations about this release,
+please see the CHANGELOG file.
+

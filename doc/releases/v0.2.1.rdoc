@@ -1,0 +1,10 @@
+= Prigner v0.2.1
+
+New templates and several improvements.
+
+* Updates in documentation.
+* Adding of the Sinatra application template.
+
+This is a beta version. For more informations about this release, please see
+the CHANGELOG file.
+

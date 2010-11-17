@@ -4,7 +4,7 @@
 *.tmp
 test.*
 todo.*
-doc/*
+doc/api/*
 pkg/*
 tmp/*
 

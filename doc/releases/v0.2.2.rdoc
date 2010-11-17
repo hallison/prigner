@@ -1,0 +1,10 @@
+= Prigner v0.2.2
+
+Bug fixes in CLI commands.
+
+* The CLI command handle has been fixed to include the root directory of
+  Prigner.
+
+This is a beta version. For more informations about this release, please see
+the CHANGELOG file.
+

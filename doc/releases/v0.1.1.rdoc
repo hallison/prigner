@@ -1,0 +1,7 @@
+= Prigner v0.1.1
+
+This release is a bug fix and small improvements.
+
+* Bug fix in command to build new project.
+* Improvements in the files of tests.
+

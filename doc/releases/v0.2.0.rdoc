@@ -1,0 +1,12 @@
+= Prigner v0.2.0
+
+New features and several improvements in API.
+
+* The templates could includes optional files.
+* All templates have been updated.
+* Adding new templates.
+* Small fixes in the source code for build templates.
+
+This is a beta version. For more informations about this release, please see
+the CHANGELOG file.
+
