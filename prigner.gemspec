@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.2.1"
-  spec.date = "2010-11-05"
+  spec.version = "0.2.2"
+  spec.date = "2010-11-17"
   #
 
   #dependencies
@@ -28,8 +28,13 @@ Gem::Specification.new do |spec|
     "COPYING",
     "README.rdoc",
     "Rakefile",
-    "TEMPLATES.rdoc",
     "bin/prign",
+    "doc/releases/v0.1.0.rdoc",
+    "doc/releases/v0.1.1.rdoc",
+    "doc/releases/v0.2.0.rdoc",
+    "doc/releases/v0.2.1.rdoc",
+    "doc/releases/v0.2.2.rdoc",
+    "doc/templates.rdoc",
     "lib/prigner.rb",
     "lib/prigner/builder.rb",
     "lib/prigner/cli.rb",

@@ -30,7 +30,7 @@ end
 
 def manifest
   @manifest ||= git(:ls_files).split("\n").sort.reject do |out|
-    out =~ /^\./ || out =~ /^doc/
+    out =~ /^\./ || out =~ /^doc\/api/
   end.map do |file|
     "    #{file.inspect}"
   end.join(",\n")
@@ -45,7 +45,7 @@ def tag
 end
 
 def release_notes
-  @release_notes ||= Pathname.new("v#{spec.version}.rdoc")
+  @release_notes ||= Pathname.new("doc/releases/v#{spec.version}.rdoc")
 end
 
 def log
@@ -76,7 +76,8 @@ end
 
 CLOBBER << FileList["doc/api*"]
 
-file "doc/api/index.html" => FileList["lib/**/*.rb", "README.rdoc", "TEMPLATES.rdoc", "CHANGELOG"] do |filespec|
+source_files = %w[lib/**/*.rb README.rdoc doc/**/*.rdoc CHANGELOG]
+file "doc/api/index.html" => FileList[*source_files] do |filespec|
   rdoc "--op", "doc/api",
        "--charset", "utf8",
        "--main", "'Prigner'",

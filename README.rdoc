@@ -80,7 +80,7 @@ Run <tt>prign list</tt> to view all available templates.
 
 You can creates your own templates. Just save in your home directory
 <tt>~/.prigner/templates/<your-template></tt>. For more information about
-templates, see "TEMPLATES.rdoc" file.
+templates, see "doc/templates.rdoc" file.
 
 == BUGS AND CONTRIBUTING
 

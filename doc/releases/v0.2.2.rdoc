@@ -4,7 +4,7 @@ Bug fixes in CLI commands.
 
 * The CLI command handle has been fixed to include the root directory of
   Prigner.
+* Documentation has release notes of the versions.
 
-This is a beta version. For more informations about this release, please see
-the CHANGELOG file.
+For more informations about this release, please see the CHANGELOG file.
 
