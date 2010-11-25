@@ -1,4 +1,5 @@
-# Copyright (c) 2010 Codigorama, Hallison Batista
+# Copyright (c) 2010 Codigorama
+# Copyright (c) 2009 Hallison Batista
 
 require "prigner"
 
@@ -48,7 +49,7 @@ ARGV.options do |arguments|
 end
 
 rescue => error
-  puts "#{program}: #{command}: #{error.message} (#{error.class})"
+  puts "\n#{program}: #{command}: #{error.message} (#{error.class})"
   exit 1
 end
 

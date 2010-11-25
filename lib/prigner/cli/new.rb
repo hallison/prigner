@@ -1,4 +1,5 @@
-# Copyright (c) 2010 Hallison Batista
+# Copyright (c) 2010 Codigorama
+# Copyright (c) 2009 Hallison Batista
 
 require "prigner"
 
@@ -113,8 +114,8 @@ begin
   end
 
 rescue => error
-  puts "#{program}: #{command}: #{error.message} (#{error.class})"
-  puts "Try '#{program} #{command} -h' or '#{program} #{command} --help' for more information."
+  puts "\n#{program}: #{command}: #{error.message} (#{error.class})"
+  puts "\nTry '#{program} #{command} -h' or '#{program} #{command} --help' for more information."
   exit 1
 end
 

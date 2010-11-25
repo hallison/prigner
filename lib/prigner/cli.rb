@@ -60,8 +60,8 @@ module Prigner::CLI
         :error   => :err
       }
       @formats = {
-        :title => "\n* %-74s",
-        :info  => "\n  %-70s [%4s]"
+        :title => "\n* %-74s\n",
+        :info  => "  %-70s [%4s]\n"
       }
       @count = {}
       @states.keys.each{|k| @count[k] = 0 }
