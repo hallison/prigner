@@ -1,5 +1,9 @@
 = Prigner v0.2.2 (2010-11-17) - Changelog
 
+== 2010-11-25
+
+* Fixes in the templates that includes test.
+
 == 2010-11-19
 
 * Releasing of version 0.2.2.
