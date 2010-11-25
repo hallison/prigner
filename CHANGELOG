@@ -1,7 +1,9 @@
-= Prigner v0.2.2 (2010-11-17) - Changelog
+= Prigner v0.3.0 (2010-11-25) - Changelog
 
 == 2010-11-25
 
+* Releasing of version 0.3.0.
+* Adding of command to copy templates.
 * Fixes in the templates that includes test.
 
 == 2010-11-19

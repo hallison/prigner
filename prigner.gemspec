@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.2.2"
-  spec.date = "2010-11-17"
+  spec.version = "0.3.0"
+  spec.date = "2010-11-25"
   #
 
   #dependencies
@@ -54,6 +54,7 @@ Gem::Specification.new do |spec|
     "share/templates/ruby/default/models/README.rdoc",
     "share/templates/ruby/default/models/executable",
     "share/templates/ruby/default/models/module.rb",
+    "share/templates/ruby/default/models/test.rb",
     "share/templates/ruby/default/models/testhelper.rb",
     "share/templates/ruby/default/specfile",
     "share/templates/ruby/gem/models/CHANGELOG",
@@ -64,6 +65,7 @@ Gem::Specification.new do |spec|
     "share/templates/ruby/gem/models/executable",
     "share/templates/ruby/gem/models/gemspec",
     "share/templates/ruby/gem/models/module.rb",
+    "share/templates/ruby/gem/models/test.rb",
     "share/templates/ruby/gem/models/testhelper.rb",
     "share/templates/ruby/gem/specfile",
     "share/templates/ruby/sinatra/models/CHANGELOG",
@@ -81,6 +83,7 @@ Gem::Specification.new do |spec|
     "share/templates/ruby/sinatra/models/mvc/database.yml",
     "share/templates/ruby/sinatra/models/mvc/model.rb",
     "share/templates/ruby/sinatra/models/mvc/view.erb",
+    "share/templates/ruby/sinatra/models/test.rb",
     "share/templates/ruby/sinatra/models/testhelper.rb",
     "share/templates/ruby/sinatra/specfile",
     "test/builder_test.rb",

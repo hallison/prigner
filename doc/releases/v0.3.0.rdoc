@@ -1,0 +1,10 @@
+= Prigner v0.3.0
+
+Bug fixes and new commands for line interface.
+
+* Fixes in the shared templates that includes test.
+* Adding of command to copy templates to user home directory.
+* Small updates in documentation.
+
+For more informations about this release, please see the CHANGELOG file.
+
