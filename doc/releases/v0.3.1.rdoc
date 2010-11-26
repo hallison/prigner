@@ -1,0 +1,11 @@
+= Prigner v0.3.1
+
+Improvements in command line interface.
+
+* Details of templates can be showed in list.
+* The list show if user has customized templates.
+* Small improvements in code.
+* Fixes in Ruby/Sinatra template.
+
+For more informations about this release, please see the CHANGELOG file.
+

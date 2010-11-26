@@ -1,4 +1,13 @@
-= Prigner v0.3.0 (2010-11-25) - Changelog
+= Prigner v0.3.1 (2010-11-26) - Changelog
+
+== 2010-11-26
+
+* Releasing of version 0.3.1.
+* Improvements in listing of the templates.
+  * Details of templates can be showed in list. 
+  * The list show if user has customized templates. 
+  * Small improvements in code.
+* Fixes in Ruby/Sinatra template.
 
 == 2010-11-25
 

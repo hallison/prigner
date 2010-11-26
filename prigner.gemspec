@@ -3,7 +3,7 @@ Gem::Specification.new do |spec|
 
   #about
   spec.name = "prigner"
-  spec.summary = "Project designer."
+  spec.summary = "Prigner is a Project Design Kit (a.k.a. project builder)."
   spec.description = "Prigner is a Project Design Kit (a.k.a. project builder). That is, it is a tool which builds your projects using templates."
   spec.authors = ["Hallison Batista"]
   spec.email = "hallison@codigorama.com"
@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.3.0"
-  spec.date = "2010-11-25"
+  spec.version = "0.3.1"
+  spec.date = "2010-11-26"
   #
 
   #dependencies
@@ -34,6 +34,8 @@ Gem::Specification.new do |spec|
     "doc/releases/v0.2.0.rdoc",
     "doc/releases/v0.2.1.rdoc",
     "doc/releases/v0.2.2.rdoc",
+    "doc/releases/v0.3.0.rdoc",
+    "doc/releases/v0.3.1.rdoc",
     "doc/templates.rdoc",
     "lib/prigner.rb",
     "lib/prigner/builder.rb",
