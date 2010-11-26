@@ -15,10 +15,10 @@ module <%=project.upper_camel_case_namespace%>
   # Standard library requirements
   require "pathname"
   require "yaml"
-
+<%if option.mvc.enabled%>
   # Internal requirements
   require "<%=project.name%>/config"
-
+<%end%>
   # Return the current version.
   def self.version
     @version ||= Version.current

@@ -28,7 +28,7 @@ end
 def tag
   git(:tag).split("\n").last
 end
-
+<%if option.gem.enabled%>
 def specfile
   @specfile ||= Pathname.new("<%=project.name%>.gemspec")
 end
@@ -36,7 +36,7 @@ end
 def gemspec
   @gemspec ||= eval(specfile.read)
 end
-
+<%end%>
 # Test
 # =============================================================================
 
@@ -45,14 +45,14 @@ Rake::TestTask.new do |test|
   test.test_files = FileList["test/*_test.rb"]
   test.verbose = true
 end
-
+<%if option.gem.enabled%>
 # Packaging
 # =============================================================================
 
 Rake::GemPackageTask.new gemspec do |spec|
   spec.need_tar = true
 end
-
+<%end%>
 # Documentation
 # =============================================================================
 
@@ -96,6 +96,7 @@ namespace :version do
     puts version.to_hash.to_yaml
   end
 end
+<%if option.gem.enabled%>
 #
 # Packaging
 # =============================================================================
@@ -138,7 +139,7 @@ desc "Uninstall gem package #{gemspec.file_name}."
 task :uninstall do
   sh "gem uninstall #{gemspec.name} --version #{gemspec.version}"
 end
-
+<%end%>
 # Default
 # =============================================================================
 
