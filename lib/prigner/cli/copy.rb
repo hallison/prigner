@@ -27,7 +27,16 @@ begin
 
     arguments.separator "Options:"
 
-    arguments.on("-f", "--force", TrueClass, "Force copy.") { noforce = false }
+    arguments.on("-h", "--help", nil, "Show this message.") do
+      puts arguments
+      exit 0
+    end
+
+    arguments.on("-f", "--force", TrueClass, "Force copy.") do
+      noforce = false
+    end
+
+    arguments.separator ""
 
     unless ARGV.empty?
         arguments.parse!

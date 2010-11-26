@@ -19,7 +19,7 @@ module Prigner::CLI
   # List all templates as commands.
   def self.templates
     Prigner::Template.all.map do |namespace, templates|
-      templates.map{ |template| template.mask }
+      templates.map{ |template, custom| template.mask }
     end.flatten
   end
 

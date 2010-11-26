@@ -86,8 +86,9 @@ class Prigner::Template
     all_template_paths.map do |path|
       new(path)
     end.inject({}) do |group, template|
+      customized = template.path.to_s =~ %r/#{Prigner.user_home_basedir}/
       group[template.namespace] ||= []
-      group[template.namespace] << template
+      group[template.namespace] << [ template, customized ]
       group
     end
   end
