@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
-
+<%namespace = project.upper_camel_case_namespace%>
   #about
   spec.name = "<%=project.name%>"
   spec.summary = "Say anything about <%=project.name%>"
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   #
 
   #version
-  spec.version = "0.0.1"
+  spec.version = "0.1.0"
   spec.date = "<%=date%>"
   #
 
@@ -46,17 +46,17 @@ Gem::Specification.new do |spec|
     "--inline-source",
     "--line-numbers",
     "--charset", "utf8",
-    "--main", "<%=project.class_name%>",
-    "--title", "<%=project.class_name%> v#{spec.version} API Documentation"
+    "--main", "<%=namespace%>",
+    "--title", "<%=namespace%> v#{spec.version} API Documentation"
   ]
 
   #rubygems
   spec.rubyforge_project = spec.name
   spec.post_install_message = <<-end_message.gsub(/^[ ]{4}/,'')
     #{'-'*78}
-    <%=project.class_name%> v#{spec.version}
+    <%=namespace%> v#{spec.version}
 
-    Thanks for use <%=project.class_name%>.
+    Thanks for use <%=namespace%>.
 
     #{'-'*78}
   end_message

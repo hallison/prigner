@@ -121,7 +121,7 @@ Gem::Specification.new do |spec|
   ]
   #
 
-  spec.test_files = spec.files.select{ |path| path =~ /^test\/*test*/ }
+  spec.test_files = spec.files.select{ |path| path =~ /^test\/.*/ }
 
   spec.require_paths = ["lib"]
 

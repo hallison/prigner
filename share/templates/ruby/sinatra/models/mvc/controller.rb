@@ -3,7 +3,8 @@ class <%=namespace%>::Controllers::About < Sinatra::Base
 
   register Sinatra::Mapping
 
-  set :views, File.join(<%=namespace%>::ROOT, "app", "views")
+  set :config, <%=namespace%>::Config
+  set :views, config.path_to_application(:views)
 
   map :root,  File.basename(__FILE__, ".*").downcase
 

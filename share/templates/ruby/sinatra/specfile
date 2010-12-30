@@ -3,7 +3,7 @@ author:
 email:
   hallison@codigorama.com
 version:
-  0.1.1
+  0.2.0
 description:
   Ruby/Sinatra application template.
 
@@ -24,10 +24,10 @@ options:
       Includes model, view and controller files.
     files:
       mvc/database.yml: config/database.yml
-      mvc/config.rb: lib/(project)/config.rb
       mvc/model.rb: app/models/model.rb
       mvc/view.erb: app/views/index.erb
       mvc/controller.rb: app/controllers/about.rb
+      mvc/application.rb: app/(project).rb
 
 directories:
   - lib/(project)
